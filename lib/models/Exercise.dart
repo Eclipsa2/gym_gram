@@ -17,6 +17,8 @@ class Exercise {
       required this.secondaryMuscles,
       required this.workingSets});
 
+  get enumValue => null;
+
   void addSet(int reps, weight) {
     WorkingSet aux = new WorkingSet(reps: reps, weight: weight);
     workingSets.add(aux);
@@ -34,5 +36,9 @@ class Exercise {
     }
 
     return totalWeight;
+  }
+
+  String getExerciseName() {
+    return exerciseName;
   }
 }
