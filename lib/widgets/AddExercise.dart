@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:gym_gram/models/Exercise.dart';
-import 'package:gym_gram/models/WorkingSet.dart';
-import '../models/Workout.dart';
-
-//Initialization of Muscles enum:
+import '../models/WorkingSet.dart';
 
 Map<Enum, List<Exercise>> exercisesInitialization() {
   List<WorkingSet> startWorkingSets = [];
@@ -13,12 +12,14 @@ Map<Enum, List<Exercise>> exercisesInitialization() {
   //Abdominal Exercises:
   //Weighted Crunches:
   exercises.putIfAbsent(Muscles.Abdominals, () => []).add(Exercise(
+      id: DateTime.now().toString(),
       exerciseName: "Weighted Crunches",
       mainMuscle: Muscles.Abdominals,
       secondaryMuscles: [],
       workingSets: startWorkingSets));
   //Weighted Russian Twists:
   exercises.putIfAbsent(Muscles.Abdominals, () => []).add(Exercise(
+      id: DateTime.now().toString(),
       exerciseName: "Weighted Russian Twists",
       mainMuscle: Muscles.Abdominals,
       secondaryMuscles: [],
@@ -26,6 +27,7 @@ Map<Enum, List<Exercise>> exercisesInitialization() {
   //Abductor Exercises:
   //Hip Abduction Machine:
   exercises.putIfAbsent(Muscles.Abductors, () => []).add(Exercise(
+      id: DateTime.now().toString(),
       exerciseName: "Hip Abduction Machine",
       mainMuscle: Muscles.Abductors,
       secondaryMuscles: [],
@@ -33,6 +35,7 @@ Map<Enum, List<Exercise>> exercisesInitialization() {
   //Adductor Exercises:
   //Hip Adduction Machine:
   exercises.putIfAbsent(Muscles.Adductors, () => []).add(Exercise(
+      id: DateTime.now().toString(),
       exerciseName: "Hip Adduction Machine",
       mainMuscle: Muscles.Adductors,
       secondaryMuscles: [],
@@ -40,24 +43,28 @@ Map<Enum, List<Exercise>> exercisesInitialization() {
   //Biceps Exercises:
   //Preacher Curl Barbell:
   exercises.putIfAbsent(Muscles.Biceps, () => []).add(Exercise(
+      id: DateTime.now().toString(),
       exerciseName: "Preacher Curl Barbell",
       mainMuscle: Muscles.Biceps,
       secondaryMuscles: [],
       workingSets: startWorkingSets));
   //Concentration Curl:
   exercises.putIfAbsent(Muscles.Biceps, () => []).add(Exercise(
+      id: DateTime.now().toString(),
       exerciseName: "Concentration Curl",
       mainMuscle: Muscles.Abdominals,
       secondaryMuscles: [],
       workingSets: startWorkingSets));
 
   exercises.putIfAbsent(Muscles.Abdominals, () => []).add(Exercise(
+      id: DateTime.now().toString(),
       exerciseName: "Weighted Cruncheasds",
       mainMuscle: Muscles.Abdominals,
       secondaryMuscles: [],
       workingSets: startWorkingSets));
   //Weighted Russian Twists:
   exercises.putIfAbsent(Muscles.Abdominals, () => []).add(Exercise(
+      id: DateTime.now().toString(),
       exerciseName: "Weighted Russian Twiasdsts",
       mainMuscle: Muscles.Abdominals,
       secondaryMuscles: [],
@@ -65,6 +72,7 @@ Map<Enum, List<Exercise>> exercisesInitialization() {
   //Abductor Exercises:
   //Hip Abduction Machine:
   exercises.putIfAbsent(Muscles.Abductors, () => []).add(Exercise(
+      id: DateTime.now().toString(),
       exerciseName: "Hip Abduction Machasdine",
       mainMuscle: Muscles.Abductors,
       secondaryMuscles: [],
@@ -72,6 +80,7 @@ Map<Enum, List<Exercise>> exercisesInitialization() {
   //Adductor Exercises:
   //Hip Adduction Machine:
   exercises.putIfAbsent(Muscles.Adductors, () => []).add(Exercise(
+      id: DateTime.now().toString(),
       exerciseName: "Hip Adduction Macasdhine",
       mainMuscle: Muscles.Adductors,
       secondaryMuscles: [],
@@ -79,12 +88,14 @@ Map<Enum, List<Exercise>> exercisesInitialization() {
   //Biceps Exercises:
   //Preacher Curl Barbell:
   exercises.putIfAbsent(Muscles.Biceps, () => []).add(Exercise(
+      id: DateTime.now().toString(),
       exerciseName: "Preacher Curl Barasdbell",
       mainMuscle: Muscles.Biceps,
       secondaryMuscles: [],
       workingSets: startWorkingSets));
   //Concentration Curl:
   exercises.putIfAbsent(Muscles.Biceps, () => []).add(Exercise(
+      id: DateTime.now().toString(),
       exerciseName: "Concentration asdCurl",
       mainMuscle: Muscles.Abdominals,
       secondaryMuscles: [],
@@ -93,25 +104,30 @@ Map<Enum, List<Exercise>> exercisesInitialization() {
   return exercises;
 }
 
-class AddExercisePage extends StatefulWidget {
-  const AddExercisePage();
+
+class AddExercise extends StatefulWidget {
+  final Function actionHandler;
+  AddExercise({required this.actionHandler});
 
   @override
-  _AddExercisePageState createState() => _AddExercisePageState();
+  State<AddExercise> createState() => _AddExerciseState();
 }
 
-class _AddExercisePageState extends State<AddExercisePage> {
+class _AddExerciseState extends State<AddExercise> {
   String dropdownvalue = "Weighted Crunches";
   final weightController = TextEditingController();
   final repsController = TextEditingController();
-
+  
   var exercises = exercisesInitialization();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Gym Gram")),
-      body: Column(
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 10,
+        child: Container(
+          padding: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: MediaQuery.of(context).viewInsets.bottom + 10,),
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
@@ -174,7 +190,9 @@ class _AddExercisePageState extends State<AddExercisePage> {
                 ),
               ),
             )
-          ]),
+          ])
+        ),
+      ),
     );
   }
 }

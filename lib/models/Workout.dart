@@ -6,7 +6,8 @@ import 'Exercise.dart';
 //workout and the end time
 
 class Workout {
-  late String workoutName;
+  final String id;
+  String workoutName;
   late int totalSets;
   late int totalWeight;
   late List<Exercise> exercises;
@@ -15,10 +16,10 @@ class Workout {
   late DateTime length;
 
   Workout(
-      {required this.workoutName,
+      {required this.id,
+      required this.workoutName,
       required this.exercises,
-      required this.start,
-      required this.end});
+      required this.start});
 
   void addExercise(Exercise aux) {
     exercises.add(aux);
@@ -27,13 +28,16 @@ class Workout {
     totalWeight += aux.getTotalExerciseWeight();
   }
 
+  String get getworkoutName {
+    return workoutName;
+  }
   void getWorkoutLength() {
     length = end.difference(start) as DateTime;
   }
 
-  String getWorkoutName() {
-    return workoutName;
-  }
+  // String getWorkoutName() {
+  //   return workoutName;
+  // }
 
   int getTotalSets() {
     int totalSets = 0;

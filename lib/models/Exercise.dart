@@ -26,13 +26,16 @@ enum Muscles {
 }
 
 class Exercise {
+  final String id;
   final String exerciseName;
   final Enum mainMuscle;
   List<Enum> secondaryMuscles;
   List<WorkingSet> workingSets;
 
   Exercise(
-      {required this.exerciseName,
+      {
+      required this.id,
+      required this.exerciseName,
       required this.mainMuscle,
       required this.secondaryMuscles,
       required this.workingSets});
