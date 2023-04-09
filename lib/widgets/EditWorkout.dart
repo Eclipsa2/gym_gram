@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_gram/cards/ExerciseCard.dart';
 import 'package:gym_gram/models/Exercise.dart';
 import 'package:gym_gram/models/WorkingSet.dart';
 import '../models/Workout.dart';
@@ -59,7 +60,13 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
 
     return Scaffold(
       appBar: appBar,
-      body: Placeholder(),
+      body: 
+      _workoutExercises.isNotEmpty ?
+      ListView.builder(itemBuilder: (context, index) {
+        final workout = _workoutExercises[index];
+        return ExerciseCard(exercise: workout);
+      }, itemCount: _workoutExercises.length,) :
+      Placeholder(),
     );
   }
 }
