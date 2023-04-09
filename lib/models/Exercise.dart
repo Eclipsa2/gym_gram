@@ -5,6 +5,26 @@ import 'WorkingSet.dart';
 //Exercise class contains the name of the exercise performed by the user,
 //the muscle groups the exercise targets and a list of WorkingSets
 
+enum Muscles {
+  Abdominals,
+  Abductors,
+  Adductors,
+  Biceps,
+  Calves,
+  Chest,
+  Forearms,
+  Glutes,
+  Hamstrings,
+  Lats,
+  LowerBack,
+  Quadriceps,
+  Shoulders,
+  Traps,
+  Triceps,
+  UpperBack,
+  Other
+}
+
 class Exercise {
   final String exerciseName;
   final Enum mainMuscle;
@@ -26,6 +46,16 @@ class Exercise {
 
   List<WorkingSet> getSets() {
     return this.workingSets;
+  }
+
+  int getTotalSets() {
+    int totalSets = 0;
+
+    for (int i = 0; i < workingSets.length; ++i) {
+      totalSets++;
+    }
+
+    return totalSets;
   }
 
   int getTotalExerciseWeight() {
