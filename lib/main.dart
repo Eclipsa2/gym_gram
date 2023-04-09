@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_gram/models/Exercise.dart';
 import 'package:gym_gram/models/WorkingSet.dart';
+import 'package:gym_gram/models/WorkoutExercise.dart';
 import 'package:gym_gram/widgets/EditWorkout.dart';
 import 'package:gym_gram/widgets/WorkoutsList.dart';
 import 'models/Workout.dart';
@@ -41,7 +42,7 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
     final newWorkout = Workout(
       id: DateTime.now().toString(),
       workoutName: 'Workout #' + (_userWorkouts.length + 1).toString(),
-      exercises: <Exercise> [],
+      exercises: <WorkoutExercise> [],
       start: DateTime.now());
 
     setState(() {

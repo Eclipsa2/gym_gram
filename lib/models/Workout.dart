@@ -1,4 +1,6 @@
 // ignore: file_names
+import 'package:gym_gram/models/WorkoutExercise.dart';
+
 import 'Exercise.dart';
 
 //Workout class contains some general stats regarding the workout performed by
@@ -8,9 +10,9 @@ import 'Exercise.dart';
 class Workout {
   final String id;
   String workoutName;
-  late int totalSets;
-  late int totalWeight;
-  late List<Exercise> exercises;
+  int totalSets = 0;
+  int totalWeight = 0;
+  late List<WorkoutExercise> exercises;
   late DateTime start;
   late DateTime end;
   late DateTime length;
@@ -21,12 +23,12 @@ class Workout {
       required this.exercises,
       required this.start});
 
-  void addExercise(Exercise aux) {
-    exercises.add(aux);
+  // void addExercise(Exercise aux) {
+  //   exercises.add(aux);
 
-    totalSets += aux.getSets().length;
-    totalWeight += aux.getTotalExerciseWeight();
-  }
+  //   totalSets += aux.getSets().length;
+  //   totalWeight += aux.getTotalExerciseWeight();
+  // }
 
   String get getworkoutName {
     return workoutName;
@@ -42,7 +44,7 @@ class Workout {
   int getTotalSets() {
     int totalSets = 0;
 
-    for (Exercise e in exercises) {
+    for (WorkoutExercise e in exercises) {
       totalSets += e.getTotalSets();
     }
 
@@ -52,7 +54,7 @@ class Workout {
   int getTotalWeight() {
     int totalWeight = 0;
 
-    for (Exercise e in exercises) {
+    for (WorkoutExercise e in exercises) {
       totalWeight += e.getTotalExerciseWeight();
     }
 

@@ -2,6 +2,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
 import 'package:flutter/material.dart';
+import 'package:gym_gram/models/WorkoutExercise.dart';
 import 'package:intl/intl.dart';
 import '../models/Workout.dart';
 
@@ -40,7 +41,7 @@ class WorkoutCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        workout.getTotalSets().toString() + " Sets",
+                        workout.totalSets.toString() + " Sets",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

@@ -3,6 +3,8 @@ import 'package:gym_gram/models/Exercise.dart';
 import 'package:gym_gram/models/WorkingSet.dart';
 import '../models/Workout.dart';
 import './AddExercise.dart';
+import './ExerciseHistory.dart';
+import '../models/WorkoutExercise.dart';
 //Initialization of Muscles enum:
 
 class EditWorkoutPage extends StatefulWidget {
@@ -13,16 +15,10 @@ class EditWorkoutPage extends StatefulWidget {
 }
 
 class _EditWorkoutPageState extends State<EditWorkoutPage> {
-  List<Exercise> _workoutExercises = [];
+  List<WorkoutExercise> _workoutExercises = [];
 
-  void __addExercise(String exerciseName, Muscles mainMuscle,
-      List<Enum> secondaryMuscles, List<WorkingSet> workingSets) {
-    final newExercise = Exercise(
-        id: DateTime.now().toString(),
-        exerciseName: exerciseName,
-        mainMuscle: mainMuscle,
-        secondaryMuscles: secondaryMuscles,
-        workingSets: workingSets);
+  void __addExercise(Exercise exercise) {
+    final newExercise = WorkoutExercise(exercise: exercise, workingSets: [WorkingSet(reps: 0, weight: 0)]);
 
     setState(() {
       _workoutExercises.add(newExercise);
@@ -58,7 +54,7 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
     );
 
     final exerciseListContainer = Container(
-      child: ExerciseHistory(),
+      child: ExerciseList(exercises: _workoutExercises),
     );
 
     return Scaffold(

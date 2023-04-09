@@ -30,46 +30,15 @@ class Exercise {
   final String exerciseName;
   final Enum mainMuscle;
   List<Enum> secondaryMuscles;
-  List<WorkingSet> workingSets;
 
   Exercise(
       {
       required this.id,
       required this.exerciseName,
       required this.mainMuscle,
-      required this.secondaryMuscles,
-      required this.workingSets});
+      required this.secondaryMuscles});
 
   get enumValue => null;
-
-  void addSet(int reps, weight) {
-    WorkingSet aux = new WorkingSet(reps: reps, weight: weight);
-    workingSets.add(aux);
-  }
-
-  List<WorkingSet> getSets() {
-    return this.workingSets;
-  }
-
-  int getTotalSets() {
-    int totalSets = 0;
-
-    for (int i = 0; i < workingSets.length; ++i) {
-      totalSets++;
-    }
-
-    return totalSets;
-  }
-
-  int getTotalExerciseWeight() {
-    int totalWeight = 0;
-
-    for (int i = 0; i < workingSets.length; ++i) {
-      totalWeight += workingSets.elementAt(i).getWeight();
-    }
-
-    return totalWeight;
-  }
 
   String getExerciseName() {
     return exerciseName;
