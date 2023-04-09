@@ -17,7 +17,7 @@ class EditWorkoutPage extends StatefulWidget {
 class _EditWorkoutPageState extends State<EditWorkoutPage> {
   List<WorkoutExercise> _workoutExercises = [];
 
-  void __addExercise(Exercise exercise) {
+  void _addExercise(Exercise exercise) {
     final newExercise = WorkoutExercise(exercise: exercise, workingSets: [WorkingSet(reps: 0, weight: 0)]);
 
     setState(() {
@@ -25,7 +25,7 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
     });
   }
 
-  void __addNewExerciseMenu(BuildContext cnt) {
+  void _addNewExerciseMenu(BuildContext cnt) {
     showModalBottomSheet(
         context: cnt,
         builder: (builderContext) {
@@ -33,7 +33,7 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
             onTap: () {},
             behavior: HitTestBehavior
                 .opaque, // tapping on the modal sheet wont close it
-            child: AddExercise(actionHandler: __addExercise),
+            child: AddExercise(actionHandler: _addExercise),
           );
         });
   }
@@ -47,7 +47,7 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
       title: Text(workout.workoutName),
       actions: <Widget>[
         IconButton(
-          onPressed: () => __addNewExerciseMenu(context), 
+          onPressed: () => _addNewExerciseMenu(context), 
           icon: Icon(Icons.add)
         )
       ],

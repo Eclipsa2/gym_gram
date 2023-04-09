@@ -124,11 +124,15 @@ class _AddExerciseState extends State<AddExercise> {
   final repsController = TextEditingController();
 
   List<Exercise> exercises = exercisesInitialization();
+  late Exercise selectedExercise = exercises[0];
+
+  void _submit() {
+    widget.actionHandler(selectedExercise);
+    Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
-    Exercise selectedExercise = exercises.elementAt(0);
-
     return SingleChildScrollView(
       child: Card(
         elevation: 10,
@@ -158,6 +162,7 @@ class _AddExerciseState extends State<AddExercise> {
                                 icon: const Icon(Icons.keyboard_arrow_down),
                                 value: selectedExercise,
                                 onChanged: (Exercise? newValue) {
+                                  print('Selected exercise: ${newValue?.exerciseName}');
                                   setState(() {
                                     selectedExercise = newValue as Exercise;
                                   });
@@ -175,7 +180,7 @@ class _AddExerciseState extends State<AddExercise> {
                               padding: EdgeInsets.only(top: 10),
                               child: ElevatedButton(
                                 onPressed: () {
-                                  widget.actionHandler(selectedExercise);
+                                  _submit();
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.white,
