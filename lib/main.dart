@@ -3,7 +3,7 @@ import 'package:gym_gram/models/Exercise.dart';
 import 'package:gym_gram/models/WorkingSet.dart';
 import 'package:gym_gram/widgets/WorkoutsList.dart';
 import 'models/Workout.dart';
-import 'widgets/AddExerciseForm.dart';
+import 'package:gym_gram/widgets/AddExerciseForm.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,9 +16,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Gym Gram',
-      home: WorkoutsPage(),
-    );
+        title: 'Gym Gram',
+        home: WorkoutsPage(),
+        routes: <String, WidgetBuilder>{
+          '/AddWorkout': (context) => AddExercisePage()
+        });
   }
 }
 
@@ -35,7 +37,10 @@ class WorkoutsPage extends StatelessWidget {
                 height: 40,
                 width: double.infinity,
                 child: ElevatedButton(
-                    onPressed: () {}, child: Text("Add workout")))
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/AddWorkout");
+                    },
+                    child: Text("Add workout")))
           ],
         ));
   }
