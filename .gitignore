@@ -44,4 +44,4 @@ app.*.map.json
 /android/app/release
 
 
-google-services.json
+/home/rasky/Development/gym_gram/android/app/google-services.json
