@@ -62,7 +62,7 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
     List<Workout> _userWorkouts = [];
     CollectionReference workouts = FirebaseFirestore.instance.collection('workouts');
     int numberOfWorkouts = 0;
-    workouts.get().then((QuerySnapshot snapshot) {
+    workouts.snapshots().listen((QuerySnapshot snapshot) {
       numberOfWorkouts = snapshot.docs.length + 1;
     });
     // this function adds workout object to firestore
