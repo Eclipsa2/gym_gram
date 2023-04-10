@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>34379509505-10b4piv3rno9h2fpngdbhshfj3goc260.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.34379509505-10b4piv3rno9h2fpngdbhshfj3goc260</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>34379509505-l5kstddrjd9a8q85f02on0tqbod1jcb1.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDBfw22Z4wPnJZmYMNjVmeNN_nYYVsW37g</string>
+	<key>GCM_SENDER_ID</key>
+	<string>34379509505</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.gymGram</string>
+	<key>PROJECT_ID</key>
+	<string>gymgram-edc91</string>
+	<key>STORAGE_BUCKET</key>
+	<string>gymgram-edc91.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:34379509505:ios:567dd75d6d5d174dfa7500</string>
+</dict>
+</plist>
