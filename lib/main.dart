@@ -79,20 +79,8 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
           .catchError((onError) => print("Failed to add workout: ${onError}"));
     }
 
-    return Scaffold(
-      appBar: AppBar(title: Text("Gym Gram")),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: workouts.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text('Something went wrong');
-          }
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading");
-          }
-
-          List<Workout> workoutsList = snapshot.data!.docs.map((document) {
+    List<Workout> getWorkoutList(AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
+      return snapshot.data!.docs.map((document) {
             Map<String, dynamic> data = document.data() as Map<String, dynamic>;
             String workoutId = document.id;
             String workoutName = data['workoutName'];
@@ -105,6 +93,21 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
                 exercises: [],
                 start: start);
           }).toList();
+    }
+    return Scaffold(
+      appBar: AppBar(title: Text("Gym Gram")),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: workouts.orderBy('start', descending: true).snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Text("Loading");
+          }
+
+          List<Workout> workoutsList = getWorkoutList(snapshot);
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -114,8 +117,13 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
                   height: 40,
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: () {
-                        addWorkoutToDB();
+                      onPressed: () async {
+                        await addWorkoutToDB();
+
+                        Navigator.of(context).pushNamed(
+                          EditWorkoutPage.routeName, 
+                          arguments: workoutsList[0]
+                        );  
                       },
                       child: Text("Add workout")))
             ],
