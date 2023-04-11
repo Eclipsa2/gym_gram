@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_gram/cards/WorkoutCard.dart';
 import 'package:gym_gram/models/Exercise.dart';
 import 'package:gym_gram/models/WorkingSet.dart';
 import 'package:gym_gram/models/WorkoutExercise.dart';
@@ -47,57 +48,46 @@ class MyWorkoutsPage extends StatefulWidget {
 }
 
 class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
-//  List <Workout> _userWorkouts =[];
-  CollectionReference workouts = 
-        FirebaseFirestore.instance.collection('workouts');
-  @override
-  void initState() {
-    // TODO: implement initState
-    
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-    List<Workout> _userWorkouts = [];
-    CollectionReference workouts = FirebaseFirestore.instance.collection('workouts');
+    final CollectionReference _workouts = FirebaseFirestore.instance.collection('workouts');
+
     int numberOfWorkouts = 0;
-    workouts.snapshots().listen((QuerySnapshot snapshot) {
+    
+    _workouts.snapshots().listen((QuerySnapshot snapshot) {
       numberOfWorkouts = snapshot.docs.length + 1;
     });
+    
     // this function adds workout object to firestore
-    Future<void> addWorkoutToDB() {
-      return workouts
+    Future<void> _addWorkout() {
+      return _workouts
           .add({
             'id': DateTime.now().toString(),                                        // ID which is exact date when the workout was added
             'workoutName': 'Workout #${(numberOfWorkouts).toString()}',     // Workout #1, 2, etc...
             'exercises': <WorkoutExercise> [],
             'start': DateTime.now(),
-            'length': 0
+            'length': 0,
           })
           .then((value) => print("DBG: Workout Added!"))
           .catchError((onError) => print("Failed to add workout: ${onError}"));
     }
 
-    List<Workout> getWorkoutList(AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
-      return snapshot.data!.docs.map((document) {
-            Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-            String workoutId = document.id;
-            String workoutName = data['workoutName'];
-            Timestamp startTimestamp = data['start'];
-            DateTime start = startTimestamp.toDate();       // converting firebase time datatype to datatime
-            int length = data['length'] ?? 0;
-            return Workout(
-                id: workoutId,
-                workoutName: workoutName,
-                exercises: [],
-                start: start);
-          }).toList();
+    Future<void> _delete(String workoutId) async {
+      await _workouts.doc(workoutId).delete();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Workout deleted successfully!')),
+      );
     }
+
     return Scaffold(
       appBar: AppBar(title: Text("Gym Gram")),
+
+      // StreamBuilder helps keeping persistent connection with firestore database
       body: StreamBuilder<QuerySnapshot>(
-        stream: workouts.orderBy('start', descending: true).snapshots(),
+        stream: _workouts.orderBy('start', descending: true).snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');
@@ -107,23 +97,25 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
             return Text("Loading");
           }
 
-          List<Workout> workoutsList = getWorkoutList(snapshot);
-
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              WorkoutsList(workouts: workoutsList),
+              //* Passing all the rows of _workouts to be displayed as list 
+              WorkoutsList(workouts: snapshot.data!.docs, deleteHandler: _delete,),
+              
               Container(
                   height: 40,
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () async {
-                        await addWorkoutToDB();
-
-                        Navigator.of(context).pushNamed(
-                          EditWorkoutPage.routeName, 
-                          arguments: workoutsList[0]
-                        );  
+                        _addWorkout();
+                        // if(context.mounted) {
+                        //     Navigator.of(context).pushNamed(
+                        //     EditWorkoutPage.routeName,
+                        //     arguments: snapshot.data!.docs[0],
+                        //   ); 
+                        // }
+                        
                       },
                       child: Text("Add workout")))
             ],
@@ -133,8 +125,3 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
     );
   }
 }
-
-// // simulating multiple accounts
-// Future<String> getAccountKey() async {
-//   return '12345678';
-// }
