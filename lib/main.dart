@@ -3,6 +3,7 @@ import 'package:gym_gram/models/Exercise.dart';
 import 'package:gym_gram/models/WorkingSet.dart';
 import 'package:gym_gram/models/WorkoutExercise.dart';
 import 'package:gym_gram/widgets/EditWorkout.dart';
+import 'package:gym_gram/widgets/LoginPage.dart';
 import 'package:gym_gram/widgets/WorkoutsList.dart';
 import 'models/Workout.dart';
 import 'package:gym_gram/widgets/EditWorkout.dart';
@@ -10,11 +11,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // This is the last thing you need to add. 
+  // This is the last thing you need to add.
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -29,13 +29,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Gym Gram',
-      home: MyWorkoutsPage(),
-      initialRoute: '/',
-      routes: <String, WidgetBuilder>{
-        EditWorkoutPage.routeName: (ctx) => EditWorkoutPage(),
-        // '/EditWorkout': (context) => EditExer()
-      });
+        title: 'Gym Gram',
+        home: LoginPage(),
+        initialRoute: '/',
+        routes: <String, WidgetBuilder>{
+          EditWorkoutPage.routeName: (ctx) => EditWorkoutPage(),
+          // '/EditWorkout': (context) => EditExer()
+        });
   }
 }
 
@@ -48,19 +48,20 @@ class MyWorkoutsPage extends StatefulWidget {
 
 class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
 //  List <Workout> _userWorkouts =[];
-  CollectionReference workouts = 
-        FirebaseFirestore.instance.collection('workouts');
+  CollectionReference workouts =
+      FirebaseFirestore.instance.collection('workouts');
   @override
   void initState() {
     // TODO: implement initState
-    
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     List<Workout> _userWorkouts = [];
-    CollectionReference workouts = FirebaseFirestore.instance.collection('workouts');
+    CollectionReference workouts =
+        FirebaseFirestore.instance.collection('workouts');
     int numberOfWorkouts = 0;
     workouts.snapshots().listen((QuerySnapshot snapshot) {
       numberOfWorkouts = snapshot.docs.length + 1;
@@ -69,9 +70,11 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
     Future<void> addWorkoutToDB() {
       return workouts
           .add({
-            'id': DateTime.now().toString(),                                        // ID which is exact date when the workout was added
-            'workoutName': 'Workout #${(numberOfWorkouts).toString()}',     // Workout #1, 2, etc...
-            'exercises': <WorkoutExercise> [],
+            'id': DateTime.now()
+                .toString(), // ID which is exact date when the workout was added
+            'workoutName':
+                'Workout #${(numberOfWorkouts).toString()}', // Workout #1, 2, etc...
+            'exercises': <WorkoutExercise>[],
             'start': DateTime.now(),
             'length': 0
           })
@@ -79,21 +82,24 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
           .catchError((onError) => print("Failed to add workout: ${onError}"));
     }
 
-    List<Workout> getWorkoutList(AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
+    List<Workout> getWorkoutList(
+        AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
       return snapshot.data!.docs.map((document) {
-            Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-            String workoutId = document.id;
-            String workoutName = data['workoutName'];
-            Timestamp startTimestamp = data['start'];
-            DateTime start = startTimestamp.toDate();       // converting firebase time datatype to datatime
-            int length = data['length'] ?? 0;
-            return Workout(
-                id: workoutId,
-                workoutName: workoutName,
-                exercises: [],
-                start: start);
-          }).toList();
+        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+        String workoutId = document.id;
+        String workoutName = data['workoutName'];
+        Timestamp startTimestamp = data['start'];
+        DateTime start = startTimestamp
+            .toDate(); // converting firebase time datatype to datatime
+        int length = data['length'] ?? 0;
+        return Workout(
+            id: workoutId,
+            workoutName: workoutName,
+            exercises: [],
+            start: start);
+      }).toList();
     }
+
     return Scaffold(
       appBar: AppBar(title: Text("Gym Gram")),
       body: StreamBuilder<QuerySnapshot>(
@@ -121,9 +127,8 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
                         await addWorkoutToDB();
 
                         Navigator.of(context).pushNamed(
-                          EditWorkoutPage.routeName, 
-                          arguments: workoutsList[0]
-                        );  
+                            EditWorkoutPage.routeName,
+                            arguments: workoutsList[0]);
                       },
                       child: Text("Add workout")))
             ],
