@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_gram/cards/ExerciseCard.dart';
 import 'package:gym_gram/models/Exercise.dart';
@@ -41,11 +42,13 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    final workout = ModalRoute.of(context)?.settings.arguments as Workout;
+    final workout = ModalRoute.of(context)?.settings.arguments as DocumentSnapshot;
+
+    final CollectionReference _exercises = FirebaseFirestore.instance.collection('exercises');
 
     // AppBar menu
     final appBar = AppBar(
-      title: Text(workout.workoutName),
+      title: Text(workout['workoutName']),
       actions: <Widget>[
         IconButton(
           onPressed: () => _addNewExerciseMenu(context), 

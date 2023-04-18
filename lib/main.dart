@@ -1,15 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gym_gram/cards/WorkoutCard.dart';
 import 'package:gym_gram/models/Exercise.dart';
 import 'package:gym_gram/models/WorkingSet.dart';
 import 'package:gym_gram/models/WorkoutExercise.dart';
 import 'package:gym_gram/widgets/EditWorkout.dart';
-import 'package:gym_gram/widgets/LoginPage.dart';
 import 'package:gym_gram/widgets/WorkoutsList.dart';
+import 'package:gym_gram/widgets/auth_page.dart';
 import 'models/Workout.dart';
 import 'package:gym_gram/widgets/EditWorkout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:gym_gram/widgets/LoginPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Gym Gram',
-        home: LoginPage(),
+        home: AuthPage(),
         initialRoute: '/',
         routes: <String, WidgetBuilder>{
           EditWorkoutPage.routeName: (ctx) => EditWorkoutPage(),
@@ -47,28 +50,22 @@ class MyWorkoutsPage extends StatefulWidget {
 }
 
 class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
-//  List <Workout> _userWorkouts =[];
-  CollectionReference workouts =
-      FirebaseFirestore.instance.collection('workouts');
-  @override
-  void initState() {
-    // TODO: implement initState
-
-    super.initState();
-  }
+  final user = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
-    List<Workout> _userWorkouts = [];
-    CollectionReference workouts =
+    final CollectionReference _workouts =
         FirebaseFirestore.instance.collection('workouts');
+
     int numberOfWorkouts = 0;
-    workouts.snapshots().listen((QuerySnapshot snapshot) {
+
+    _workouts.snapshots().listen((QuerySnapshot snapshot) {
       numberOfWorkouts = snapshot.docs.length + 1;
     });
+
     // this function adds workout object to firestore
-    Future<void> addWorkoutToDB() {
-      return workouts
+    Future<void> _addWorkout() {
+      return _workouts
           .add({
             'id': DateTime.now()
                 .toString(), // ID which is exact date when the workout was added
@@ -76,34 +73,26 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
                 'Workout #${(numberOfWorkouts).toString()}', // Workout #1, 2, etc...
             'exercises': <WorkoutExercise>[],
             'start': DateTime.now(),
-            'length': 0
+            'length': 0,
           })
           .then((value) => print("DBG: Workout Added!"))
           .catchError((onError) => print("Failed to add workout: ${onError}"));
     }
 
-    List<Workout> getWorkoutList(
-        AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
-      return snapshot.data!.docs.map((document) {
-        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-        String workoutId = document.id;
-        String workoutName = data['workoutName'];
-        Timestamp startTimestamp = data['start'];
-        DateTime start = startTimestamp
-            .toDate(); // converting firebase time datatype to datatime
-        int length = data['length'] ?? 0;
-        return Workout(
-            id: workoutId,
-            workoutName: workoutName,
-            exercises: [],
-            start: start);
-      }).toList();
+    Future<void> _delete(String workoutId) async {
+      await _workouts.doc(workoutId).delete();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Workout deleted successfully!')),
+      );
     }
 
     return Scaffold(
       appBar: AppBar(title: Text("Gym Gram")),
+
+      // StreamBuilder helps keeping persistent connection with firestore database
       body: StreamBuilder<QuerySnapshot>(
-        stream: workouts.orderBy('start', descending: true).snapshots(),
+        stream: _workouts.orderBy('start', descending: true).snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');
@@ -113,22 +102,34 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
             return Text("Loading");
           }
 
-          List<Workout> workoutsList = getWorkoutList(snapshot);
-
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              WorkoutsList(workouts: workoutsList),
+              //* Passing all the rows of _workouts to be displayed as list
+              WorkoutsList(
+                workouts: snapshot.data!.docs,
+                deleteHandler: _delete,
+              ),
+
+              ElevatedButton(
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                },
+                child: Text('Log Out '),
+              ),
+
               Container(
                   height: 40,
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () async {
-                        await addWorkoutToDB();
-
-                        Navigator.of(context).pushNamed(
-                            EditWorkoutPage.routeName,
-                            arguments: workoutsList[0]);
+                        _addWorkout();
+                        // if(context.mounted) {
+                        //     Navigator.of(context).pushNamed(
+                        //     EditWorkoutPage.routeName,
+                        //     arguments: snapshot.data!.docs[0],
+                        //   );
+                        // }
                       },
                       child: Text("Add workout")))
             ],
@@ -138,8 +139,3 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
     );
   }
 }
-
-// // simulating multiple accounts
-// Future<String> getAccountKey() async {
-//   return '12345678';
-// }

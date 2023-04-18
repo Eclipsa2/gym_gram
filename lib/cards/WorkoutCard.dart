@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
@@ -7,7 +8,8 @@ import 'package:intl/intl.dart';
 import '../models/Workout.dart';
 
 class WorkoutCard extends StatelessWidget {
-  final Workout workout;
+  final DocumentSnapshot workout;
+
   WorkoutCard({required this.workout});
 
   @override
@@ -24,8 +26,9 @@ class WorkoutCard extends StatelessWidget {
               padding: EdgeInsets.all(10),
               child: Center(
                 child: Text(
-                  workout.workoutName,
-                  style: TextStyle(
+                  workout['workoutName'],
+                //  workout.workoutName,
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                     color: Colors.blue,
@@ -40,16 +43,17 @@ class WorkoutCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        workout.totalSets.toString() + " Sets",
+                      const Text(
+                        "0 Sets",
+                       // workout.totalSets.toString() + " Sets",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        DateFormat('yMd').format(workout.start),
-                        style: TextStyle(
+                        DateFormat('yMd').format( workout['start'].toDate() ),
+                        style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 13,
                         ),
@@ -61,8 +65,9 @@ class WorkoutCard extends StatelessWidget {
             ),
             Container(
               padding: EdgeInsets.only(left: 30),
-              child: Text(
-                "Total Weight: " + workout.getTotalWeight().toString() + " kg",
+              child: const Text(
+                "Total weight",
+               // "Total Weight: " + workout.getTotalWeight().toString() + " kg",
               ),
             )
           ]),
