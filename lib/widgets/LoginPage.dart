@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import './RegisterPage.dart';
 class MyButton extends StatelessWidget {
-  final Function()? onTap;
+  final VoidCallback onTap;
 
   const MyButton({super.key, required this.onTap});
 
@@ -92,8 +92,8 @@ class SquareTile extends StatelessWidget {
 }
 
 class LoginPage extends StatefulWidget {
-  final Function()? onTap;
-  LoginPage({super.key, required this.onTap});
+  final VoidCallback tapSwitch;
+  LoginPage({super.key, required this.tapSwitch});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -217,7 +217,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const SizedBox(width: 4),
                     GestureDetector(
-                      onTap: widget.onTap!(),
+                      onTap: widget.tapSwitch,
                       child: const Text(
                         'Register now',
                         style: TextStyle(
