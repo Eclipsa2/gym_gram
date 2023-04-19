@@ -15,10 +15,12 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
 
   //switch between login and signUp
   void switchPages() {
-    setState(() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        showLoginPage = !showLoginPage;
+      });
       showLoginPage = !showLoginPage;
     });
-    showLoginPage = !showLoginPage;
   }
 
   @override
