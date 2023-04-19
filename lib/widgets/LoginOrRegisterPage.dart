@@ -15,6 +15,8 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
 
   //switch between login and signUp
   void switchPages() {
+    // delaying the call of switchPages untill the build phase is complete
+    // schedules a callback to be called after the current frame has finished building
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         showLoginPage = !showLoginPage;
