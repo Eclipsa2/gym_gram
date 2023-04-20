@@ -19,7 +19,7 @@ class MyButton extends StatelessWidget {
         ),
         child: const Center(
           child: Text(
-            "Sign In",
+            "Sign Up",
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -105,29 +105,36 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final passwordController = TextEditingController();
 
+  final confirmPasswordController = TextEditingController();
+
   // sign user up method
   Future signUp() async {
     //try creating user
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: usernameController.text,
-        password: passwordController.text,
-      );
-      print('Sign-in successful');
+      if (passwordController.text == confirmPasswordController.text) {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: usernameController.text,
+          password: passwordController.text,
+        );
+        print('Sign-up successful');
+      } else {
+        showErrorMessage("Passwords don\'t match!");
+      }
     } on FirebaseAuthException catch (e) {
-      showErrorMessage();
+      print(e);
+      showErrorMessage(
+          "The email address is already in use by another account!");
     }
   }
 
-  void showErrorMessage() {
+  void showErrorMessage(String text) {
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
               backgroundColor: Colors.black,
               title: Center(
-                child: Text("Wrong username or password",
-                    style: const TextStyle(color: Colors.white)),
+                child: Text(text, style: const TextStyle(color: Colors.white)),
               ));
         });
   }
@@ -152,9 +159,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 const SizedBox(height: 50),
 
-                // welcome back, you've been missed!
+                // Let's get you started!
                 Text(
-                  'Welcome back you\'ve been missed!',
+                  'Let\'s get you started!',
                   style: TextStyle(
                     color: Colors.grey[700],
                     fontSize: 16,
@@ -182,7 +189,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(height: 10),
 
                 MyTextField(
-                  controller: passwordController,
+                  controller: confirmPasswordController,
                   hintText: 'Confirm Password',
                   obscureText: true,
                 ),
