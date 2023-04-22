@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gym_gram/models/Exercise.dart';
 import 'package:gym_gram/models/WorkoutExercise.dart';
 import 'package:intl/intl.dart';
+import 'WorkingSets.dart';
 
 class ExerciseCard extends StatelessWidget {
   final WorkoutExercise exercise;
@@ -13,20 +14,26 @@ class ExerciseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15)
-      ),
-
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Row(
         children: <Widget>[
-          Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 30,
-            ),
-            child: Text(
-              exercise.exercise.exerciseName,
-            ),
+          Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 30,
+                ),
+                child: Text(
+                  exercise.exercise.exerciseName,
+                ),
+              ),
+              SizedBox(
+                height: 200,
+                width: 400, // adjust the width as needed
+                child: WorkingSets(),
+              ),
+            ],
           ),
         ],
       ),
