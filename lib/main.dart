@@ -65,7 +65,6 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
                 .toString(), // ID which is exact date when the workout was added
             'workoutName':
                 'Workout #${(numberOfWorkouts).toString()}', // Workout #1, 2, etc...
-            'exercises': <WorkoutExercise>[],
             'start': DateTime.now(),
             'length': 0,
             'userId': currentUser?.uid,
@@ -75,6 +74,18 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
     }
 
     Future<void> _delete(String workoutId) async {
+      final CollectionReference _exercises = FirebaseFirestore.instance.collection('exercises');
+      
+      // Query all exercises with the workoutId to be deleted
+      final QuerySnapshot exerciseSnapshot = await _exercises
+        .where('workoutId', isEqualTo: workoutId)
+        .get();
+
+      // delete each exercise document
+      exerciseSnapshot.docs.forEach((element) async {
+        await _exercises.doc(element.id).delete();
+      });
+
       await _workouts.doc(workoutId).delete();
 
       ScaffoldMessenger.of(context).showSnackBar(

@@ -32,6 +32,8 @@ class ExerciseCard extends StatelessWidget {
               SizedBox(
                 height: 200,
                 width: 400, // adjust the width as needed
+
+                // buton pentru adaugare seturi
                 child: WorkingSets(),
               ),
             ],
