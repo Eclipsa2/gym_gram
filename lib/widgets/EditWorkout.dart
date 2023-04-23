@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_gram/cards/ExerciseCard.dart';
 import 'package:gym_gram/models/Exercise.dart';
-import 'package:gym_gram/models/WorkingSet.dart';
 import './AddExercise.dart';
 import 'ExerciseList.dart';
 import '../models/WorkoutExercise.dart';

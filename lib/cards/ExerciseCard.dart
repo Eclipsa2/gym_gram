@@ -33,8 +33,9 @@ class ExerciseCard extends StatelessWidget {
                 height: 200,
                 width: 400, // adjust the width as needed
 
-                // buton pentru adaugare seturi
-                child: WorkingSets(),
+                // adding the sets
+                // exercise.id = FK
+                child: WorkingSets(exerciseId: exercise.id,),
               ),
             ],
           ),
