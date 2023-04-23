@@ -44,16 +44,17 @@ class MyWorkoutsPage extends StatefulWidget {
 }
 
 class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
-  User currentUser = FirebaseAuth.instance.currentUser!;
+  User? currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
-    // final CollectionReference _workouts =
-    //     FirebaseFirestore.instance.collection('workouts').where('userId', isEqualTo: currentUser.uid);
+    final CollectionReference _workouts =
+        FirebaseFirestore.instance.collection('workouts');
 
-    //* creating a subcollection called userWorkouts inside the workouts
-    //* each user will have their own subcollection of workouts
-    final CollectionReference _workouts = FirebaseFirestore.instance.collection('workouts').doc(currentUser.uid).collection('userWorkouts');
+    // //* creating a subcollection called userWorkouts inside the workouts
+    // //* each user will have their own subcollection of workouts
+    // final CollectionReference _workouts = FirebaseFirestore.instance.collection('workouts').doc(currentUser.uid).collection('userWorkouts');
+
     int numberOfWorkouts = 0;
 
     _workouts.snapshots().listen((QuerySnapshot snapshot) {
@@ -71,7 +72,7 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
             'exercises': <WorkoutExercise>[],
             'start': DateTime.now(),
             'length': 0,
-            'userId': currentUser.uid,
+            'userId': currentUser?.uid,
           })
           .then((value) => print("DBG: Workout Added!"))
           .catchError((onError) => print("Failed to add workout: ${onError}"));
@@ -90,49 +91,56 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
 
       // StreamBuilder helps keeping persistent connection with firestore database
       body: StreamBuilder<QuerySnapshot>(
-        stream: _workouts.orderBy('start', descending: true).snapshots(),
+        stream: _workouts
+                      .orderBy('start', descending: true)
+                      .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text('Something went wrong');
-          }
+          // if (snapshot.hasError) {
+          //   return Text('Something went wrong');
+          // }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Text("Loading");
           }
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              //* Passing all the rows of _workouts to be displayed as list
-              WorkoutsList(
-                workouts: snapshot.data!.docs,
-                deleteHandler: _delete,
-              ),
-
-              ElevatedButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                },
-                child: Text('Log Out '),
-              ),
-
-              Container(
-                  height: 40,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        _addWorkout();
-                        // if(context.mounted) {
-                        //     Navigator.of(context).pushNamed(
-                        //     EditWorkoutPage.routeName,
-                        //     arguments: snapshot.data!.docs[0],
-                        //   );
-                        // }
-                      },
-                      child: Text("Add workout")))
-            ],
-          );
-        },
+          
+          if(snapshot.hasData)
+          {
+            return Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          //* Passing all the rows of _workouts to be displayed as list
+                          WorkoutsList(
+                            workouts: snapshot.data!.docs
+                              .where((workout) =>
+                                workout.get('userId') == currentUser?.uid)
+                                .toList(),
+                            deleteHandler: _delete,
+                          ),
+                        ],
+                      );
+          } else {
+            // Handle the snapshot loading state
+            return CircularProgressIndicator();
+          }
+        }
+      ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: () async {
+              await _addWorkout();
+            },
+            child: Icon(Icons.add),
+          ),
+          SizedBox(height: 16),
+          FloatingActionButton(
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+            },
+            child: Icon(Icons.logout),
+          ),
+        ],
       ),
     );
   }
