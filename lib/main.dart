@@ -1,18 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gym_gram/cards/WorkoutCard.dart';
-import 'package:gym_gram/models/Exercise.dart';
-import 'package:gym_gram/models/WorkingSet.dart';
 import 'package:gym_gram/models/WorkoutExercise.dart';
 import 'package:gym_gram/widgets/EditWorkout.dart';
 import 'package:gym_gram/widgets/WorkoutsList.dart';
-import 'package:gym_gram/widgets/auth_page.dart';
-import 'models/Workout.dart';
-import 'package:gym_gram/widgets/EditWorkout.dart';
+import 'package:gym_gram/auth_widgets/auth_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:gym_gram/widgets/LoginPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,13 +44,16 @@ class MyWorkoutsPage extends StatefulWidget {
 }
 
 class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
-  final user = FirebaseAuth.instance.currentUser!;
+  User currentUser = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
-    final CollectionReference _workouts =
-        FirebaseFirestore.instance.collection('workouts');
+    // final CollectionReference _workouts =
+    //     FirebaseFirestore.instance.collection('workouts').where('userId', isEqualTo: currentUser.uid);
 
+    //* creating a subcollection called userWorkouts inside the workouts
+    //* each user will have their own subcollection of workouts
+    final CollectionReference _workouts = FirebaseFirestore.instance.collection('workouts').doc(currentUser.uid).collection('userWorkouts');
     int numberOfWorkouts = 0;
 
     _workouts.snapshots().listen((QuerySnapshot snapshot) {
@@ -74,6 +71,7 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
             'exercises': <WorkoutExercise>[],
             'start': DateTime.now(),
             'length': 0,
+            'userId': currentUser.uid,
           })
           .then((value) => print("DBG: Workout Added!"))
           .catchError((onError) => print("Failed to add workout: ${onError}"));

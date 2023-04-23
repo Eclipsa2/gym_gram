@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gym_gram/main.dart';
-import 'package:gym_gram/widgets/verify_email_page.dart';
+import 'package:gym_gram/auth_widgets/verify_email_page.dart';
 import 'LoginOrRegisterPage.dart';
 
 class AuthPage extends StatelessWidget {

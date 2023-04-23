@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import './RegisterPage.dart';
 import 'forgot_password_page.dart';
 import '../cards/CustomStyles.dart';
 
