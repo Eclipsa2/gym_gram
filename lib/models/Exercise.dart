@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'WorkingSet.dart';
-
+import 'package:json_annotation/json_annotation.dart';
 //Exercise class contains the name of the exercise performed by the user,
 //the muscle groups the exercise targets and a list of WorkingSets
 
@@ -22,14 +21,18 @@ enum Muscles {
   Traps,
   Triceps,
   UpperBack,
-  Other
+  Other;
+
+  // firebase nu stie de json, transformam in string
+  String toJson() => name;
+  static Muscles fromJson(String json) => values.byName(json);
 }
 
 class Exercise {
   final String id;
   final String exerciseName;
-  final Enum mainMuscle;
-  List<Enum> secondaryMuscles;
+  final Muscles mainMuscle;
+  List<Muscles> secondaryMuscles;
 
   Exercise(
       {

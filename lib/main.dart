@@ -51,10 +51,6 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
     final CollectionReference _workouts =
         FirebaseFirestore.instance.collection('workouts');
 
-    // //* creating a subcollection called userWorkouts inside the workouts
-    // //* each user will have their own subcollection of workouts
-    // final CollectionReference _workouts = FirebaseFirestore.instance.collection('workouts').doc(currentUser.uid).collection('userWorkouts');
-
     int numberOfWorkouts = 0;
 
     _workouts.snapshots().listen((QuerySnapshot snapshot) {
@@ -120,7 +116,7 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
                       );
           } else {
             // Handle the snapshot loading state
-            return CircularProgressIndicator();
+            return CircularProgressIndicator.adaptive();
           }
         }
       ),

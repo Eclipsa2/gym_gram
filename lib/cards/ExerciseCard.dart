@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
@@ -8,7 +9,7 @@ import 'package:intl/intl.dart';
 import 'WorkingSets.dart';
 
 class ExerciseCard extends StatelessWidget {
-  final WorkoutExercise exercise;
+  final DocumentSnapshot exercise;
   ExerciseCard({required this.exercise});
 
   @override
@@ -25,7 +26,7 @@ class ExerciseCard extends StatelessWidget {
                   vertical: 30,
                 ),
                 child: Text(
-                  exercise.exercise.exerciseName,
+                  exercise['exerciseName'],
                 ),
               ),
               SizedBox(
