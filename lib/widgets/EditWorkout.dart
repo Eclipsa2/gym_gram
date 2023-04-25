@@ -15,13 +15,12 @@ class EditWorkoutPage extends StatefulWidget {
 }
 
 class _EditWorkoutPageState extends State<EditWorkoutPage> {
-  List<WorkoutExercise> _workoutExercises = [];
 
   @override
   Widget build(BuildContext context) {
     final workout = ModalRoute.of(context)?.settings.arguments as DocumentSnapshot;
 
-    final CollectionReference _exercises = FirebaseFirestore.instance.collection('exercises');
+    final CollectionReference _exercises = FirebaseFirestore.instance.collection('workoutExercises');
 
     Future<void> _addExercise(Exercise exercise) {
       return _exercises.add(

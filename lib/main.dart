@@ -74,7 +74,7 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
     }
 
     Future<void> _delete(String workoutId) async {
-      final CollectionReference _exercises = FirebaseFirestore.instance.collection('exercises');
+      final CollectionReference _exercises = FirebaseFirestore.instance.collection('workoutExercises');
       
       // Query all exercises with the workoutId to be deleted
       final QuerySnapshot exerciseSnapshot = await _exercises
