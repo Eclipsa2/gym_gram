@@ -22,33 +22,6 @@ Future<List<Exercise>> fetchExercises() async {
   return exercises;
 }
 
-List<Exercise> exercisesInitialization() {
-//   List<WorkingSet> startWorkingSets = [];
-//   startWorkingSets.add(new WorkingSet(reps: 0, weight: 0));
-  //Initialization of some Exercises:
-  List<Exercise> exercisesList = [];
-
-  exercisesList.add(Exercise(
-      id: DateTime.now().toString(),
-      exerciseName: "Weighted Crunches",
-      mainMuscle: Muscles.Abdominals,
-      secondaryMuscles: []));
-  exercisesList.add(Exercise(
-      id: DateTime.now().toString(),
-      exerciseName: "Weighted Russian Twists",
-      mainMuscle: Muscles.Abdominals,
-      secondaryMuscles: []));
-  exercisesList.add(Exercise(
-      id: DateTime.now().toString(),
-      exerciseName: "Hip Abduction Machine",
-      mainMuscle: Muscles.Abductors,
-      secondaryMuscles: []));
-
-  print(exercisesList);
-
-  return exercisesList;
-}
-
 class AddExercise extends StatefulWidget {
   final Function actionHandler;
   AddExercise({required this.actionHandler});
