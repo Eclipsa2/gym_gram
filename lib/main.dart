@@ -135,6 +135,7 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
+            heroTag: 'addWorkout',
             onPressed: () async {
               await _addWorkout();
             },
@@ -142,6 +143,7 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
           ),
           SizedBox(height: 16),
           FloatingActionButton(
+            heroTag: 'signOut',
             onPressed: () {
               FirebaseAuth.instance.signOut();
             },
