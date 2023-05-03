@@ -41,9 +41,17 @@ class Exercise {
       required this.mainMuscle,
       required this.secondaryMuscles});
 
-  get enumValue => null;
-
-  String getExerciseName() {
-    return exerciseName;
+  factory Exercise.fromJson(Map<String, dynamic> json) {
+    return Exercise(
+      id: DateTime.now().toString(), 
+      exerciseName: json['exerciseName'], 
+      mainMuscle: Muscles.fromJson(json['mainMuscle']), 
+      secondaryMuscles: <Muscles>[],
+    );
   }
+  // get enumValue => null;
+
+  // String getExerciseName() {
+  //   return exerciseName;
+  // }
 }

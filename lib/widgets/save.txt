@@ -226,3 +226,89 @@ class _AddExerciseState extends State<AddExercise> {
     );
   }
 }
+
+
+
+
+=====================
+
+  // Map<Enum, List<Exercise>> exercises = {};
+  // //Abdominal Exercises:
+  // //Weighted Crunches:
+  // exercises.putIfAbsent(Muscles.Abdominals, () => []).add(Exercise(
+  //     id: DateTime.now().toString(),
+  //     exerciseName: "Weighted Crunches",
+  //     mainMuscle: Muscles.Abdominals,
+  //     secondaryMuscles: []));
+  // //Weighted Russian Twists:
+  // exercises.putIfAbsent(Muscles.Abdominals, () => []).add(Exercise(
+  //     id: DateTime.now().toString(),
+  //     exerciseName: "Weighted Russian Twists",
+  //     mainMuscle: Muscles.Abdominals,
+  //     secondaryMuscles: []));
+  // //Abductor Exercises:
+  // //Hip Abduction Machine:
+  // exercises.putIfAbsent(Muscles.Abductors, () => []).add(Exercise(
+  //     id: DateTime.now().toString(),
+  //     exerciseName: "Hip Abduction Machine",
+  //     mainMuscle: Muscles.Abductors,
+  //     secondaryMuscles: []));
+  // //Adductor Exercises:
+  // //Hip Adduction Machine:
+  // exercises.putIfAbsent(Muscles.Adductors, () => []).add(Exercise(
+  //     id: DateTime.now().toString(),
+  //     exerciseName: "Hip Adduction Machine",
+  //     mainMuscle: Muscles.Adductors,
+  //     secondaryMuscles: []));
+  // //Biceps Exercises:
+  // //Preacher Curl Barbell:
+  // exercises.putIfAbsent(Muscles.Biceps, () => []).add(Exercise(
+  //     id: DateTime.now().toString(),
+  //     exerciseName: "Preacher Curl Barbell",
+  //     mainMuscle: Muscles.Biceps,
+  //     secondaryMuscles: []));
+  // //Concentration Curl:
+  // exercises.putIfAbsent(Muscles.Biceps, () => []).add(Exercise(
+  //     id: DateTime.now().toString(),
+  //     exerciseName: "Concentration Curl",
+  //     mainMuscle: Muscles.Abdominals,
+  //     secondaryMuscles: []));
+
+  // exercises.putIfAbsent(Muscles.Abdominals, () => []).add(Exercise(
+  //     id: DateTime.now().toString(),
+  //     exerciseName: "Weighted Cruncheasds",
+  //     mainMuscle: Muscles.Abdominals,
+  //     secondaryMuscles: []));
+  // //Weighted Russian Twists:
+  // exercises.putIfAbsent(Muscles.Abdominals, () => []).add(Exercise(
+  //     id: DateTime.now().toString(),
+  //     exerciseName: "Weighted Russian Twiasdsts",
+  //     mainMuscle: Muscles.Abdominals,
+  //     secondaryMuscles: []));
+  // //Abductor Exercises:
+  // //Hip Abduction Machine:
+  // exercises.putIfAbsent(Muscles.Abductors, () => []).add(Exercise(
+  //     id: DateTime.now().toString(),
+  //     exerciseName: "Hip Abduction Machasdine",
+  //     mainMuscle: Muscles.Abductors,
+  //     secondaryMuscles: []));
+  // //Adductor Exercises:
+  // //Hip Adduction Machine:
+  // exercises.putIfAbsent(Muscles.Adductors, () => []).add(Exercise(
+  //     id: DateTime.now().toString(),
+  //     exerciseName: "Hip Adduction Macasdhine",
+  //     mainMuscle: Muscles.Adductors,
+  //     secondaryMuscles: []));
+  // //Biceps Exercises:
+  // //Preacher Curl Barbell:
+  // exercises.putIfAbsent(Muscles.Biceps, () => []).add(Exercise(
+  //     id: DateTime.now().toString(),
+  //     exerciseName: "Preacher Curl Barasdbell",
+  //     mainMuscle: Muscles.Biceps,
+  //     secondaryMuscles: []));
+  // //Concentration Curl:
+  // exercises.putIfAbsent(Muscles.Biceps, () => []).add(Exercise(
+  //     id: DateTime.now().toString(),
+  //     exerciseName: "Concentration asdCurl",
+  //     mainMuscle: Muscles.Abdominals,
+  //     secondaryMuscles: []));

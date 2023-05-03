@@ -1,8 +1,26 @@
+import 'dart:ffi';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:gym_gram/models/Exercise.dart';
 import '../models/WorkingSet.dart';
+
+Future<List<Exercise>> fetchExercises() async {
+  final exercises = <Exercise>[];
+  
+  // querying the data from the reference of the firestore collection
+  final querySnapshot =
+      await FirebaseFirestore.instance.collection('exercises').get();
+
+  for (final doc in querySnapshot.docs) {
+    final exercise = Exercise.fromJson(doc.data());
+    exercises.add(exercise);
+  }
+
+  return exercises;
+}
 
 List<Exercise> exercisesInitialization() {
 //   List<WorkingSet> startWorkingSets = [];
@@ -27,86 +45,6 @@ List<Exercise> exercisesInitialization() {
       secondaryMuscles: []));
 
   print(exercisesList);
-  // Map<Enum, List<Exercise>> exercises = {};
-  // //Abdominal Exercises:
-  // //Weighted Crunches:
-  // exercises.putIfAbsent(Muscles.Abdominals, () => []).add(Exercise(
-  //     id: DateTime.now().toString(),
-  //     exerciseName: "Weighted Crunches",
-  //     mainMuscle: Muscles.Abdominals,
-  //     secondaryMuscles: []));
-  // //Weighted Russian Twists:
-  // exercises.putIfAbsent(Muscles.Abdominals, () => []).add(Exercise(
-  //     id: DateTime.now().toString(),
-  //     exerciseName: "Weighted Russian Twists",
-  //     mainMuscle: Muscles.Abdominals,
-  //     secondaryMuscles: []));
-  // //Abductor Exercises:
-  // //Hip Abduction Machine:
-  // exercises.putIfAbsent(Muscles.Abductors, () => []).add(Exercise(
-  //     id: DateTime.now().toString(),
-  //     exerciseName: "Hip Abduction Machine",
-  //     mainMuscle: Muscles.Abductors,
-  //     secondaryMuscles: []));
-  // //Adductor Exercises:
-  // //Hip Adduction Machine:
-  // exercises.putIfAbsent(Muscles.Adductors, () => []).add(Exercise(
-  //     id: DateTime.now().toString(),
-  //     exerciseName: "Hip Adduction Machine",
-  //     mainMuscle: Muscles.Adductors,
-  //     secondaryMuscles: []));
-  // //Biceps Exercises:
-  // //Preacher Curl Barbell:
-  // exercises.putIfAbsent(Muscles.Biceps, () => []).add(Exercise(
-  //     id: DateTime.now().toString(),
-  //     exerciseName: "Preacher Curl Barbell",
-  //     mainMuscle: Muscles.Biceps,
-  //     secondaryMuscles: []));
-  // //Concentration Curl:
-  // exercises.putIfAbsent(Muscles.Biceps, () => []).add(Exercise(
-  //     id: DateTime.now().toString(),
-  //     exerciseName: "Concentration Curl",
-  //     mainMuscle: Muscles.Abdominals,
-  //     secondaryMuscles: []));
-
-  // exercises.putIfAbsent(Muscles.Abdominals, () => []).add(Exercise(
-  //     id: DateTime.now().toString(),
-  //     exerciseName: "Weighted Cruncheasds",
-  //     mainMuscle: Muscles.Abdominals,
-  //     secondaryMuscles: []));
-  // //Weighted Russian Twists:
-  // exercises.putIfAbsent(Muscles.Abdominals, () => []).add(Exercise(
-  //     id: DateTime.now().toString(),
-  //     exerciseName: "Weighted Russian Twiasdsts",
-  //     mainMuscle: Muscles.Abdominals,
-  //     secondaryMuscles: []));
-  // //Abductor Exercises:
-  // //Hip Abduction Machine:
-  // exercises.putIfAbsent(Muscles.Abductors, () => []).add(Exercise(
-  //     id: DateTime.now().toString(),
-  //     exerciseName: "Hip Abduction Machasdine",
-  //     mainMuscle: Muscles.Abductors,
-  //     secondaryMuscles: []));
-  // //Adductor Exercises:
-  // //Hip Adduction Machine:
-  // exercises.putIfAbsent(Muscles.Adductors, () => []).add(Exercise(
-  //     id: DateTime.now().toString(),
-  //     exerciseName: "Hip Adduction Macasdhine",
-  //     mainMuscle: Muscles.Adductors,
-  //     secondaryMuscles: []));
-  // //Biceps Exercises:
-  // //Preacher Curl Barbell:
-  // exercises.putIfAbsent(Muscles.Biceps, () => []).add(Exercise(
-  //     id: DateTime.now().toString(),
-  //     exerciseName: "Preacher Curl Barasdbell",
-  //     mainMuscle: Muscles.Biceps,
-  //     secondaryMuscles: []));
-  // //Concentration Curl:
-  // exercises.putIfAbsent(Muscles.Biceps, () => []).add(Exercise(
-  //     id: DateTime.now().toString(),
-  //     exerciseName: "Concentration asdCurl",
-  //     mainMuscle: Muscles.Abdominals,
-  //     secondaryMuscles: []));
 
   return exercisesList;
 }
@@ -123,16 +61,45 @@ class _AddExerciseState extends State<AddExercise> {
   final weightController = TextEditingController();
   final repsController = TextEditingController();
 
-  List<Exercise> exercises = exercisesInitialization();
-  late Exercise selectedExercise = exercises[0];
+  List<Exercise> exercises = [];
+
+  // setting a random exercise as the selected one to ensure that it has been initialized
+  // before the dropdown list is beign generatted
+  late Exercise selectedExercise = Exercise(
+    id: DateTime.now().toString(),
+    exerciseName: "Loading...",
+    mainMuscle: Muscles.Abdominals,
+    secondaryMuscles: [],
+  );
 
   void _submit() {
     widget.actionHandler(selectedExercise);
     Navigator.of(context).pop();
   }
 
+  // initState is called once the widget is insterted in the widget tree
+  @override
+  void initState() {
+    super.initState();
+
+    // .then() method is called on the Future object returned by fetchExercises() (then() is called after the fetchExercises completed its execution)
+    // the callback function takes the resolved value aka the list of exercises as its argument
+    // it then sets the exercises values 
+    fetchExercises().then((exercisesFromDatabase) {
+      setState(() {
+        exercises = exercisesFromDatabase;
+        selectedExercise = exercises[0];
+      });
+    });
+
+  }
+
+  
   @override
   Widget build(BuildContext context) {
+    if (exercises == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
     return SingleChildScrollView(
       child: Card(
         elevation: 10,
