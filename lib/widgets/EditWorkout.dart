@@ -15,11 +15,30 @@ class EditWorkoutPage extends StatefulWidget {
 }
 
 class _EditWorkoutPageState extends State<EditWorkoutPage> {
+    
+  late TextEditingController _workoutNameController;
+  // late DocumentSnapshot _workout;
+  late DocumentSnapshot _workout;
+
 
   @override
-  Widget build(BuildContext context) {
-    final workout = ModalRoute.of(context)?.settings.arguments as DocumentSnapshot;
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _workout = ModalRoute.of(context)?.settings.arguments as DocumentSnapshot<Object?>;
+    _workoutNameController =
+        TextEditingController(text: _workout['workoutName']);
+  }
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _workout = ModalRoute.of(context)?.settings.arguments as DocumentSnapshot;
+  //   _workoutNameController =
+  //       TextEditingController(text: _workout['workoutName']);
+  // }
+
+  @override
+  Widget build(BuildContext context) {  
     final CollectionReference _exercises = FirebaseFirestore.instance.collection('workoutExercises');
 
     Future<void> _addExercise(Exercise exercise) {
@@ -27,7 +46,7 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
         {
           'exerciseName': exercise.exerciseName,
           'muscle': exercise.mainMuscle.toJson(),
-          'workoutId': workout.id,
+          'workoutId': _workout.id,
         })
         .then((value) => print("DBG: Exercise added!"))
         .catchError((onError) => print("Failed to add exercise: ${onError}"));
@@ -48,7 +67,10 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
 
     // AppBar menu
     final appBar = AppBar(
-      title: Text(workout['workoutName']),
+      title: GestureDetector(
+        onTap: () => _showEditWorkoutNameDialog(context),
+        child: Text(_workout['workoutName']),
+      ),
       actions: <Widget>[
         IconButton(
           onPressed: () => _addNewExerciseMenu(context), 
@@ -75,7 +97,7 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
               children: <Widget>[
                 ExerciseList(
                   exercises: snapshot.data!.docs
-                    .where((exercise) => exercise.get('workoutId') == workout.id)
+                    .where((exercise) => exercise.get('workoutId') == _workout.id)
                     .toList(), 
                 )
               ],
@@ -85,12 +107,50 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
           }
         },
       )
-      // _workoutExercises.isNotEmpty ?
-      // ListView.builder(itemBuilder: (context, index) {
-      //   final workout = _workoutExercises[index];
-      //   return ExerciseCard(exercise: workout);
-      // }, itemCount: _workoutExercises.length,) :
-      // Placeholder(),
+
+    );
+  }
+
+  void _showEditWorkoutNameDialog(BuildContext context) {
+    showDialog(
+      context: context, 
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Edit workout name'),
+          content: TextField(
+            controller: _workoutNameController,
+            decoration: const InputDecoration(
+              hintText: 'Enter new workout name',
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              }, 
+              child: const Text('CANCEL'),
+            ),
+            TextButton(
+              child: const Text('SAVE'),
+              onPressed: () async {
+                final newWorkoutName = _workoutNameController.text;
+                // update the workout name in the firestore
+                await _workout.reference.update({'workoutName': newWorkoutName});
+
+                // getting the reference for the update workout document
+                DocumentSnapshot updatedWorkout = await _workout.reference.get();
+
+                // calling setState to update the workout immediately
+                setState(() {
+                  _workout = updatedWorkout;
+                });
+                // close the dialog
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      }
     );
   }
 }
