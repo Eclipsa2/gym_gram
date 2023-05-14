@@ -53,19 +53,24 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 50),
-
+                const SizedBox(height: 60),
+                const Text(
+                  "GymGram",
+                  style: TextStyle(
+                    fontFamily: 'FjallaOne',
+                    fontSize: 50,
+                  ),
+                ),
                 // logo
-                const Icon(
-                  Icons.lock,
-                  size: 100,
+                Image.asset(
+                  'assets/images/logo_login.png',
+                  height: 200,
                 ),
 
                 const SizedBox(height: 50),
@@ -74,8 +79,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 Text(
                   'Let\'s get you started!',
                   style: TextStyle(
-                    color: Colors.grey[700],
-                    fontSize: 16,
+                    color: Colors.white,
+                    fontSize: 20,
                   ),
                 ),
 

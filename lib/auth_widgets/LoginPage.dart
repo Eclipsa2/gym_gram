@@ -46,33 +46,39 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 50),
-
+                // const SizedBox(height: 20),
+                const Text(
+                  "GymGram",
+                  style: TextStyle(
+                    fontFamily: 'FjallaOne',
+                    fontSize: 50,
+                  ),
+                ),
                 // logo
-                const Icon(
-                  Icons.lock,
-                  size: 100,
+                Image.asset(
+                  'assets/images/logo_login.png',
+                  height: 200,
                 ),
 
                 const SizedBox(height: 50),
 
                 // welcome back, you've been missed!
-                Text(
-                  'Welcome back you\'ve been missed!',
+                const Text(
+                  'Welcome back, you\'ve been missed!',
                   style: TextStyle(
-                    color: Colors.grey[700],
-                    fontSize: 16,
+                    fontSize: 25,
+                    fontFamily: 'FjallaOne',
+                    // fontWeight: FontWeight.bold,
                   ),
                 ),
 
-                const SizedBox(height: 25),
+                const SizedBox(height: 50),
 
                 // username textfield
                 MyTextField(
@@ -105,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         child: Text(
                           'Forgot Password?',
-                          style: TextStyle(color: Colors.grey[600]),
+                          style: TextStyle(color: Colors.grey[500]),
                         ),
                       ),
                     ],
@@ -121,17 +127,13 @@ class _LoginPageState extends State<LoginPage> {
 
                 const SizedBox(height: 50),
 
-                const SizedBox(height: 50),
-
-                const SizedBox(height: 50),
-
                 // not a member? register now
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'Not a member?',
-                      style: TextStyle(color: Colors.grey[700]),
+                      style: TextStyle(color: Colors.grey[500], fontSize: 20),
                     ),
                     const SizedBox(width: 4),
                     GestureDetector(
@@ -139,8 +141,9 @@ class _LoginPageState extends State<LoginPage> {
                       child: const Text(
                         'Register now',
                         style: TextStyle(
-                          color: Colors.blue,
+                          color: Colors.orange,
                           fontWeight: FontWeight.bold,
+                          fontSize: 20,
                         ),
                       ),
                     ),

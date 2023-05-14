@@ -18,9 +18,8 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My App',
-      home: _isLoginPage
+    return Scaffold(
+      body: _isLoginPage
           ? LoginPage(tapSwitch: _switchPage)
           : RegisterPage(onTap: _switchPage),
     );

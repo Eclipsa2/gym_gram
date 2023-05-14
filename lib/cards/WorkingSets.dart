@@ -85,30 +85,31 @@ class _WorkingSetsState extends State<WorkingSets> {
             ],
           ),
         SizedBox(height: 10),
-        StreamBuilder <QuerySnapshot>(
+        StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
-                                   .collection('workingSets')
-                                   .orderBy('timestamp', descending: true)
-                                   .snapshots(),
-
-          builder: (BuildContext context, AsyncSnapshot <QuerySnapshot> snapshot) {
-            if(snapshot.connectionState == ConnectionState.waiting) {
+              .collection('workingSets')
+              .orderBy('timestamp', descending: true)
+              .snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
               return Text('Loading...');
             }
 
-            if(snapshot.hasData)
-            {
+            if (snapshot.hasData) {
               final sets = snapshot.data!.docs
-                              .where((set) => set.get('exerciseId') == widget.exerciseId)
-                              .toList();
-              
-              return Column(
-                children: <Widget>[
-                  for (final set in sets) Text('${set['reps']} reps, ${set['weight']} kgs'),
-                ],
+                  .where((set) => set.get('exerciseId') == widget.exerciseId)
+                  .toList();
+
+              return SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    for (final set in sets)
+                      Text('${set['reps']} reps, ${set['weight']} kgs'),
+                  ],
+                ),
               );
-            }
-            else {
+            } else {
               return CircularProgressIndicator.adaptive();
             }
           },

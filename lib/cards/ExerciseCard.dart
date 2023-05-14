@@ -22,20 +22,28 @@ class ExerciseCard extends StatelessWidget {
             children: [
               Container(
                 margin: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 30,
+                  horizontal: 10,
+                  vertical: 10,
                 ),
                 child: Text(
                   exercise['exerciseName'],
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
                 ),
               ),
               SizedBox(
-                height: 200,
+                height: 100,
                 width: 400, // adjust the width as needed
 
                 // adding the sets
                 // exercise.id = FK
-                child: WorkingSets(exerciseId: exercise.id,),
+
+                child: SingleChildScrollView(
+                  child: WorkingSets(
+                    exerciseId: exercise.id,
+                  ),
+                ),
               ),
             ],
           ),

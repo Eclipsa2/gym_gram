@@ -61,8 +61,21 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
     } else {
       return Scaffold(
           appBar: AppBar(
-        title: Text("Verify Email"),
-      ));
+            title: Text("Verify Email"),
+          ),
+          body: Column(
+            children: const <Widget>[
+              Icon(
+                Icons.email_rounded,
+                size: 100,
+                color: Colors.white,
+              ),
+              Text(
+                "Waiting for email verification...",
+                textAlign: TextAlign.center,
+              )
+            ],
+          ));
     }
   }
 }

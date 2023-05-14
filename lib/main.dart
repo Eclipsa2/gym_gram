@@ -26,7 +26,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Gym Gram',
+        theme: ThemeData(
+          brightness: Brightness.dark,
+          fontFamily: 'Jost',
+        ),
         home: AuthPage(),
         initialRoute: '/',
         routes: <String, WidgetBuilder>{
@@ -74,21 +79,22 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
     }
 
     Future<void> _delete(String workoutId) async {
-      final CollectionReference _workoutExercises = FirebaseFirestore.instance.collection('workoutExercises');
-      final CollectionReference _workingSets = FirebaseFirestore.instance.collection('workingSets');
+      final CollectionReference _workoutExercises =
+          FirebaseFirestore.instance.collection('workoutExercises');
+      final CollectionReference _workingSets =
+          FirebaseFirestore.instance.collection('workingSets');
 
       // Query all exercises with the workoutId to be deleted
       final QuerySnapshot exerciseSnapshot = await _workoutExercises
-        .where('workoutId', isEqualTo: workoutId)
-        .get();
+          .where('workoutId', isEqualTo: workoutId)
+          .get();
 
       // delete each exercise document
       exerciseSnapshot.docs.forEach((element) async {
         // Query all the workingSets to be deleted
-        final QuerySnapshot workingSetsSnapshot = await _workingSets
-          .where('exerciseId', isEqualTo: element.id)
-          .get();
-        
+        final QuerySnapshot workingSetsSnapshot =
+            await _workingSets.where('exerciseId', isEqualTo: element.id).get();
+
         // delete each workingSet document
         workingSetsSnapshot.docs.forEach((workingSetElement) async {
           await workingSetElement.reference.delete();
@@ -106,47 +112,51 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text("Gym Gram")),
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        title: Text(
+          "GymGram",
+          style: TextStyle(fontFamily: 'FjallaOne', fontSize: 40),
+        ),
+      ),
 
       // StreamBuilder helps keeping persistent connection with firestore database
       body: StreamBuilder<QuerySnapshot>(
-        stream: _workouts
-                      .orderBy('start', descending: true)
-                      .snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          // if (snapshot.hasError) {
-          //   return Text('Something went wrong');
-          // }
+          stream: _workouts.orderBy('start', descending: true).snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            // if (snapshot.hasError) {
+            //   return Text('Something went wrong');
+            // }
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading");
-          }
-          
-          if(snapshot.hasData)
-          {
-            return Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          //* Passing all the rows of _workouts to be displayed as list
-                          WorkoutsList(
-                            workouts: snapshot.data!.docs
-                              .where((workout) =>
-                                workout.get('userId') == currentUser?.uid)
-                                .toList(),
-                            deleteHandler: _delete,
-                          ),
-                        ],
-                      );
-          } else {
-            // Handle the snapshot loading state
-            return CircularProgressIndicator.adaptive();
-          }
-        }
-      ),
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Text("Loading");
+            }
+
+            if (snapshot.hasData) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  //* Passing all the rows of _workouts to be displayed as list
+                  WorkoutsList(
+                    workouts: snapshot.data!.docs
+                        .where((workout) =>
+                            workout.get('userId') == currentUser?.uid)
+                        .toList(),
+                    deleteHandler: _delete,
+                  ),
+                ],
+              );
+            } else {
+              // Handle the snapshot loading state
+              return CircularProgressIndicator.adaptive();
+            }
+          }),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
+            backgroundColor: Colors.orange,
             heroTag: 'addWorkout',
             onPressed: () async {
               await _addWorkout();
@@ -155,6 +165,7 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
           ),
           SizedBox(height: 16),
           FloatingActionButton(
+            backgroundColor: Colors.orange,
             heroTag: 'signOut',
             onPressed: () {
               FirebaseAuth.instance.signOut();
