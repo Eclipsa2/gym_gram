@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../cards/CustomStyles.dart';
+import '../models/User.dart' as model;
 
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;
@@ -23,10 +25,21 @@ class _RegisterPageState extends State<RegisterPage> {
     //try creating user
     try {
       if (passwordController.text == confirmPasswordController.text) {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        UserCredential cred =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: usernameController.text,
           password: passwordController.text,
         );
+        model.User user = model.User(
+            email: usernameController.text,
+            username: usernameController.text.split('@')[0],
+            uid: cred.user!.uid,
+            photoUrl: '');
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(cred.user!.uid)
+            .set(user.toJson());
         print('Sign-up successful');
       } else {
         showErrorMessage("Passwords don\'t match!");
@@ -76,7 +89,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(height: 50),
 
                 // Let's get you started!
-                Text(
+                const Text(
                   'Let\'s get you started!',
                   style: TextStyle(
                     color: Colors.white,

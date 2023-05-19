@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_gram/main.dart';
+import 'package:gym_gram/widgets/HomeScreen.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   @override
@@ -57,7 +58,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   @override
   Widget build(BuildContext context) {
     if (isVerified) {
-      return MyWorkoutsPage();
+      return HomeScreen();
     } else {
       return Scaffold(
           appBar: AppBar(

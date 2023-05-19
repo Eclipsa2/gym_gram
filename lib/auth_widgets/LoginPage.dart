@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gym_gram/widgets/HomeScreen.dart';
 import 'forgot_password_page.dart';
 import '../cards/CustomStyles.dart';
 
@@ -25,6 +27,8 @@ class _LoginPageState extends State<LoginPage> {
         password: passwordController.text,
       );
       print('Sign-in successful');
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => HomeScreen()));
     } on FirebaseAuthException catch (e) {
       showErrorMessage();
     }
