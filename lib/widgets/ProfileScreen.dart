@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import '../cards/ProfileCard.dart';
+
 class Profile extends StatefulWidget {
   final String uid;
   const Profile({Key? key, required this.uid}) : super(key: key);
@@ -45,9 +47,9 @@ class _ProfileState extends State<Profile> {
         ? const Center(child: CircularProgressIndicator())
         : Scaffold(
             appBar: AppBar(
-              title: Text(
-                userData['username'],
-                style: const TextStyle(
+              title: const Text(
+                'Profile',
+                style: TextStyle(
                   fontFamily: 'FjallaOne',
                   fontSize: 40,
                 ),
@@ -55,7 +57,9 @@ class _ProfileState extends State<Profile> {
               backgroundColor: Colors.blue,
             ),
             body: Column(
-              children: [],
+              children: <Widget>[
+                ProfileCard(userData: userData),
+              ],
             ),
             floatingActionButton: FloatingActionButton(
               backgroundColor: Colors.orange,

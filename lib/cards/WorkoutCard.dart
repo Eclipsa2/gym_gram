@@ -3,10 +3,41 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class WorkoutCard extends StatelessWidget {
+class WorkoutCard extends StatefulWidget {
   final DocumentSnapshot workout;
 
   WorkoutCard({required this.workout});
+
+  @override
+  State<WorkoutCard> createState() => _WorkoutCardState();
+}
+
+class _WorkoutCardState extends State<WorkoutCard> {
+  int nr_sets = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  void fetchData() async {
+    QuerySnapshot exercises = await FirebaseFirestore.instance
+        .collection('workoutExercises')
+        .where('workoutId', isEqualTo: widget.workout['id'])
+        .get();
+
+    List<String> exerciseIds = exercises.docs.map((doc) => doc.id).toList();
+
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('workingSets')
+        .where('exerciseId', whereIn: exerciseIds)
+        .get();
+
+    setState(() {
+      nr_sets = querySnapshot.size;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +56,7 @@ class WorkoutCard extends StatelessWidget {
             padding: EdgeInsets.all(10),
             child: Center(
               child: Text(
-                workout['workoutName'],
+                widget.workout['workoutName'],
                 //  workout.workoutName,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
@@ -46,16 +77,16 @@ class WorkoutCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const Text(
-                      "0 Sets",
-                      // workout.totalSets.toString() + " Sets",
-                      style: TextStyle(
+                    Text(
+                      nr_sets.toString(),
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      DateFormat('yMd').format(workout['start'].toDate()),
+                      DateFormat('yMd')
+                          .format(widget.workout['start'].toDate()),
                       style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 13,

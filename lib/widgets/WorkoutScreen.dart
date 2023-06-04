@@ -77,7 +77,7 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: Text(
+        title: const Text(
           "Workouts",
           style: TextStyle(fontFamily: 'FjallaOne', fontSize: 40),
         ),

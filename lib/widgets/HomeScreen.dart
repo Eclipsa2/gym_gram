@@ -62,27 +62,41 @@ class _HomeScreenState extends State<HomeScreen> {
         onPageChanged: onPageChanged,
       ),
       bottomNavigationBar: CupertinoTabBar(
+        height: 60,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: (_page == 0) ? Colors.blue : Colors.grey,
+            icon: Container(
+              margin: EdgeInsets.only(top: 8),
+              child: Icon(
+                size: 40,
+                Icons.home,
+                color: (_page == 0) ? Colors.blue : Colors.grey,
+              ),
             ),
             label: '',
             backgroundColor: Colors.grey,
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.list,
-              color: (_page == 1) ? Colors.blue : Colors.grey,
+            icon: Container(
+              margin: EdgeInsets.only(top: 8),
+              child: Icon(
+                size: 40,
+                Icons.list,
+                color: (_page == 1) ? Colors.blue : Colors.grey,
+              ),
             ),
             label: '',
             backgroundColor: Colors.grey,
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-              color: (_page == 2) ? Colors.blue : Colors.grey,
+            icon: Container(
+              margin: EdgeInsets.only(top: 8),
+              // alignment: Alignment.center,
+              child: Icon(
+                size: 40,
+                Icons.person,
+                color: (_page == 2) ? Colors.blue : Colors.grey,
+              ),
             ),
             label: '',
             backgroundColor: Colors.grey,

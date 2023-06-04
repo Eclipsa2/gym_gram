@@ -36,11 +36,12 @@ dependencies:
   firebase_storage: ^11.2.0
   flutter:
     sdk: flutter
+  image_picker: ^0.8.7+5
   intl: ^0.17.0
   json_annotation: ^4.8.0
 
 dev_dependencies:
-
+  flutter_launcher_icons: "^0.13.1"
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -50,6 +51,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+flutter_icons:  
+  android: true
+  ios: true
+  image_path: "assets/icons/icon.jpg"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
