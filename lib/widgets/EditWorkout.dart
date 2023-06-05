@@ -87,11 +87,14 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
     );
 
     return WillPopScope(
-      onWillPop: () async {
+      onWillPop: () {
+        // DocumentSnapshot updatedWorkout =
+        _workout.reference.get().then((value) => Navigator.pop(context, value));
         // Handle the back button press here
         // Call your custom Navigator.pop() or perform any other custom behavior
-        Navigator.pop(context, _workout);
-        return false; // Return false to prevent the default back button behavior
+        // Navigator.pop(context, updatedWorkout);
+        return Future.value(
+            false); // Return false to prevent the default back button behavior
       },
       child: Scaffold(
           appBar: appBar,

@@ -51,7 +51,7 @@ class _ProfileState extends State<Profile> {
                 'Profile',
                 style: TextStyle(
                   fontFamily: 'FjallaOne',
-                  fontSize: 40,
+                  fontSize: 35,
                 ),
               ),
               backgroundColor: Colors.blue,

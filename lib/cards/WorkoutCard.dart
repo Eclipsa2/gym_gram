@@ -14,6 +14,7 @@ class WorkoutCard extends StatefulWidget {
 
 class _WorkoutCardState extends State<WorkoutCard> {
   int nr_sets = 0;
+  int weight = 0;
 
   @override
   void initState() {
@@ -22,6 +23,7 @@ class _WorkoutCardState extends State<WorkoutCard> {
   }
 
   void fetchData() async {
+    int nr_rows;
     QuerySnapshot exercises = await FirebaseFirestore.instance
         .collection('workoutExercises')
         .where('workoutId', isEqualTo: widget.workout['id'])
@@ -29,87 +31,134 @@ class _WorkoutCardState extends State<WorkoutCard> {
 
     List<String> exerciseIds = exercises.docs.map((doc) => doc.id).toList();
 
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('workingSets')
-        .where('exerciseId', whereIn: exerciseIds)
-        .get();
+    if (exerciseIds.isNotEmpty) {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('workingSets')
+          .where('exerciseId', whereIn: exerciseIds)
+          .get();
+      nr_rows = querySnapshot.size;
+    } else {
+      nr_rows = 0;
+    }
 
-    setState(() {
-      nr_sets = querySnapshot.size;
-    });
+    int totalWeight = 0;
+    if (exerciseIds.isNotEmpty) {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('workingSets')
+          .where('exerciseId', whereIn: exerciseIds)
+          .get();
+
+      for (var document in querySnapshot.docs) {
+        int currentWeight =
+            ((document.data() as Map<String, Object?>)['weight'] as int? ?? 0) *
+                ((document.data() as Map<String, Object?>)['reps'] as int? ??
+                    0);
+        totalWeight += currentWeight;
+      }
+    }
+
+    if (mounted) {
+      setState(() {
+        nr_sets = nr_rows;
+        weight = totalWeight;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Row(children: <Widget>[
-        Flexible(
-          flex: 3,
-          fit: FlexFit.tight,
-          child: Container(
-            height: 80,
-            // width: 130,
-            margin: EdgeInsets.symmetric(
-              vertical: 10,
-              horizontal: 15,
-            ),
-            padding: EdgeInsets.all(10),
-            child: Center(
-              child: Text(
-                widget.workout['workoutName'],
-                //  workout.workoutName,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: Colors.blue,
-                ),
-              ),
-            ),
-          ),
-        ),
-        Flexible(
-          fit: FlexFit.tight,
-          flex: 2,
-          child: Container(
-            padding: EdgeInsets.only(left: 20),
+    return Container(
+      height: 80,
+      child: Card(
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+          Flexible(
+            flex: 3,
+            fit: FlexFit.tight,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      nr_sets.toString(),
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      DateFormat('yMd')
-                          .format(widget.workout['start'].toDate()),
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 13,
-                      ),
-                    ),
-                  ],
+                Text(
+                  widget.workout['workoutName'],
+                  //  workout.workoutName,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.blue,
+                  ),
+                ),
+                Text(
+                  textAlign: TextAlign.center,
+                  DateFormat('yMd').format(widget.workout['start'].toDate()),
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 13,
+                  ),
                 ),
               ],
             ),
           ),
-        ),
-        Flexible(
-          fit: FlexFit.tight,
-          flex: 3,
-          child: Container(
-            padding: EdgeInsets.only(left: 30),
-            child: const Text(
-              "Total weight",
-              // "Total Weight: " + workout.getTotalWeight().toString() + " kg",
+          Flexible(
+            fit: FlexFit.tight,
+            flex: 2,
+            child: Container(
+              padding: EdgeInsets.only(left: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    textAlign: TextAlign.center,
+                    "Total sets:",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    textAlign: TextAlign.center,
+                    nr_sets.toString(),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
-        )
-      ]),
+          Flexible(
+            fit: FlexFit.tight,
+            flex: 3,
+            child: Container(
+              padding: EdgeInsets.only(left: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    textAlign: TextAlign.center,
+                    "Total weight:",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    textAlign: TextAlign.center,
+                    weight.toString(),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        ]),
+      ),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_gram/resources/storage_methods.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:gym_gram/utils/utils.dart';
 
 class ProfileCard extends StatefulWidget {
   var userData = {};
@@ -17,30 +18,21 @@ class _ProfileCardState extends State<ProfileCard> {
   late String username = widget.userData['username'];
   late TextEditingController _usernameController =
       TextEditingController(text: widget.userData['username']);
-  Uint8List? _image;
   late String url = widget.userData['photoUrl'];
-  pickImage(ImageSource source) async {
-    final ImagePicker _imagePicker = ImagePicker();
-
-    XFile? _file = await _imagePicker.pickImage(source: source);
-
-    if (_file != null) {
-      return await _file.readAsBytes();
-    }
-    print('No image selected');
-  }
 
   void selectImage() async {
-    Uint8List im = await pickImage(ImageSource.gallery);
-    String img_url =
-        await StorageMethods().uploadImageToStorage('profilePics', im, false);
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(widget.userData['uid'])
-        .update({'photoUrl': img_url});
-    setState(() {
-      url = img_url;
-    });
+    var im = await pickImage(ImageSource.gallery);
+    if (im != null) {
+      String img_url =
+          await StorageMethods().uploadImageToStorage('profilePics', im, false);
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.userData['uid'])
+          .update({'photoUrl': img_url});
+      setState(() {
+        url = img_url;
+      });
+    }
   }
 
   void _showEditUsernameDialog(BuildContext context) {
@@ -115,7 +107,8 @@ class _ProfileCardState extends State<ProfileCard> {
                     child: IconButton(
                       onPressed: selectImage,
                       icon: const Icon(
-                        Icons.add_a_photo,
+                        size: 35,
+                        Icons.change_circle_outlined,
                       ),
                     )),
               ]),

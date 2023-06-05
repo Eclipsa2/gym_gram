@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../cards/WorkoutCard.dart';
+import 'EditWorkout.dart';
 import 'WorkoutsList.dart';
 
 class MyWorkoutsPage extends StatefulWidget {
@@ -79,7 +81,10 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
         backgroundColor: Colors.blue,
         title: const Text(
           "Workouts",
-          style: TextStyle(fontFamily: 'FjallaOne', fontSize: 40),
+          style: TextStyle(
+            fontFamily: 'FjallaOne',
+            fontSize: 35,
+          ),
         ),
       ),
 
@@ -93,23 +98,66 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
             // }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text("Loading");
+              return CircularProgressIndicator.adaptive();
             }
 
             if (snapshot.hasData) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  //* Passing all the rows of _workouts to be displayed as list
-                  WorkoutsList(
-                    workouts: snapshot.data!.docs
-                        .where((workout) =>
-                            workout.get('userId') == currentUser?.uid)
-                        .toList(),
-                    deleteHandler: _delete,
-                  ),
-                ],
+              var workouts = snapshot.data!.docs
+                  .where((workout) => workout.get('userId') == currentUser?.uid)
+                  .toList();
+
+              return ListView.builder(
+                itemCount: workouts.length,
+                itemBuilder: (context, index) {
+                  //* DocumentSnapshot contains the rows of the workout table
+                  DocumentSnapshot workout = workouts[index];
+
+                  // var updated_workout=workout;
+                  return GestureDetector(
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  EditWorkoutPage(workout: workout)),
+                        ).then((updatedWorkout) => setState(() {
+                              workout = updatedWorkout;
+                            }));
+                      },
+                      child: Column(
+                        children: <Widget>[
+                          Dismissible(
+                              key: Key(workout.id),
+                              background: Container(
+                                color: Colors.red,
+                                alignment: Alignment.centerRight,
+                                padding: EdgeInsets.only(right: 20.0),
+                                child: const Icon(
+                                  Icons.delete,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              onDismissed: (direction) {
+                                _delete(workout.id);
+                              },
+                              child: WorkoutCard(workout: workout)),
+                        ],
+                      ));
+                },
               );
+              // Column(
+              //   crossAxisAlignment: CrossAxisAlignment.center,
+              //   children: <Widget>[
+              //     //* Passing all the rows of _workouts to be displayed as list
+              //     WorkoutsList(
+              //       workouts: snapshot.data!.docs
+              //           .where((workout) =>
+              //               workout.get('userId') == currentUser?.uid)
+              //           .toList(),
+              //       deleteHandler: _delete,
+              //     ),
+              //   ],
+              // );
             } else {
               // Handle the snapshot loading state
               return CircularProgressIndicator.adaptive();

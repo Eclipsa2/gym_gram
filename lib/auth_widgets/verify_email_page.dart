@@ -61,22 +61,52 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       return HomeScreen();
     } else {
       return Scaffold(
-          appBar: AppBar(
-            title: Text("Verify Email"),
-          ),
           body: Column(
-            children: const <Widget>[
-              Icon(
-                Icons.email_rounded,
-                size: 100,
-                color: Colors.white,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+            Container(
+              width: double.infinity,
+              child: const Icon(
+                Icons.email_outlined,
+                size: 150,
               ),
-              Text(
-                "Waiting for email verification...",
+            ),
+            Container(
+              width: double.infinity,
+              child: const Text(
+                'Verify Email',
                 textAlign: TextAlign.center,
-              )
-            ],
-          ));
+                style: TextStyle(
+                  fontSize: 35,
+                  fontFamily: 'FjallaOne',
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 20, right: 20, top: 15),
+              width: double.infinity,
+              child: const Text(
+                'Check your inbox and verify your email by clicking on the link sent',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontFamily: 'FjallaOne',
+                ),
+              ),
+            ),
+            TextButton(
+                onPressed: sendVerificationEmail,
+                child: Text(
+                  'Send again',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'FjallaOne',
+                  ),
+                ))
+            //To DO: Cancel button -> login_or_register_page
+          ]));
     }
   }
 }
