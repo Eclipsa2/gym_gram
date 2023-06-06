@@ -59,4 +59,24 @@ class FirestoreMethods {
       print(err.toString());
     }
   }
+
+  //Delete a post
+  Future <void> deletePost(String postId) async
+  {
+    try {
+    // Get a reference to the document you want to delete
+    DocumentReference documentRef = FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId);
+    DocumentSnapshot snap = await documentRef.get();
+    // Delete the document
+    await StorageMethods().deleteFile(snap['photoUrl']);
+    await documentRef.delete();
+
+    print('Document deleted successfully');
+  } catch (err) {
+    print('Error deleting document: $err');
+  }
+    
+  }
 }

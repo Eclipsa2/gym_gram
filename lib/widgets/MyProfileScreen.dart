@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gym_gram/resources/firestore_methods.dart';
 import 'package:gym_gram/widgets/PostDetail.dart';
 
 import '../cards/MyProfileCard.dart';
@@ -103,6 +104,11 @@ class _MyProfileState extends State<MyProfile> {
                             itemBuilder: (context, index) {
                               DocumentSnapshot post = posts[index];
                               return GestureDetector(
+                                onLongPress: () async {
+                                  await FirestoreMethods().deletePost(post['postId']);
+                                  setState(() {                                   
+                                  });
+                                },
                                 onTap: () {
                                   Navigator.push(
                                     context,
@@ -126,7 +132,7 @@ class _MyProfileState extends State<MyProfile> {
                                 },
                                 child: Container(
                                   child: Image(
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.cover,
                                     image: NetworkImage(post['photoUrl']),
                                   ),
                                 ),

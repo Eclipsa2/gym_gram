@@ -46,43 +46,48 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/bg2.png'), // Replace with your image path
-            fit: BoxFit.cover,
+    return Stack(
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/bg2.png'), // Replace with your image path
+              fit: BoxFit.cover,
+            ),
           ),
         ),
-        child: loading == true
-          ? const LinearProgressIndicator(color: Colors.orange)
-          : StreamBuilder(
-              stream:
-                  FirebaseFirestore.instance.collection('posts').snapshots(),
-              builder: (context,
-                  AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const LinearProgressIndicator(
-                    color: Colors.orange,
-                  );
-                }
-                var posts = snapshot.data!.docs.toList();
-                posts.sort((a, b) => b['date'].compareTo(a['date']));
-                return ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      DocumentSnapshot post = posts[index];
-                      return following.contains(post['uid'])
-                          ? PostCard(
-                              uid: post['uid'],
-                              photoUrl: post['photoUrl'],
-                              workoutId: post['workoutId'],
-                            )
-                          : Container();
-                    });
-              },
-            ),
-      ),
-    );
+        Scaffold(
+          backgroundColor: Colors.transparent,
+        body:  loading == true
+            ? const LinearProgressIndicator(color: Colors.orange)
+            : StreamBuilder(
+                stream:
+                    FirebaseFirestore.instance.collection('posts').snapshots(),
+                builder: (context,
+                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const LinearProgressIndicator(
+                      color: Colors.orange,
+                    );
+                  }
+                  var posts = snapshot.data!.docs.toList();
+                  posts.sort((a, b) => b['date'].compareTo(a['date']));
+                  return ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        DocumentSnapshot post = posts[index];
+                        return following.contains(post['uid'])
+                            ? PostCard(
+                                uid: post['uid'],
+                                photoUrl: post['photoUrl'],
+                                workoutId: post['workoutId'],
+                              )
+                            : Container();
+                      });
+                },
+              ),
+        ),
+      ]
+      );
   }
 }

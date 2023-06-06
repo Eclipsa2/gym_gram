@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                     const Text(
                       'Welcome back, you\'ve been missed!',
                       style: TextStyle(
-                        fontSize: 25,
+                        fontSize: 20,
                         fontFamily: 'FjallaOne',
                         // fontWeight: FontWeight.bold,
                       ),

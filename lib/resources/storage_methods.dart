@@ -24,4 +24,19 @@ class StorageMethods {
     String downloadUrl = await snap.ref.getDownloadURL();
     return downloadUrl;
   }
+
+  //Delete an image from storage
+  Future<void> deleteFile(String fileUrl) async {
+  try {
+    // Reference to the file to be deleted
+    Reference storageRef = FirebaseStorage.instance.refFromURL(fileUrl);
+
+    // Delete the file
+    await storageRef.delete();
+
+    print('File deleted successfully');
+  } catch (err) {
+    print('Error deleting file: $err');
+  }
+}
 }
