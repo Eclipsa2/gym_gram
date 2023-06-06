@@ -3,16 +3,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import '../cards/ProfileCard.dart';
+import '../cards/MyProfileCard.dart';
 
-class Profile extends StatefulWidget {
+class MyProfile extends StatefulWidget {
   final String uid;
-  const Profile({Key? key, required this.uid}) : super(key: key);
+  const MyProfile({Key? key, required this.uid}) : super(key: key);
   @override
-  State<Profile> createState() => _ProfileState();
+  State<MyProfile> createState() => _MyProfileState();
 }
 
-class _ProfileState extends State<Profile> {
+class _MyProfileState extends State<MyProfile> {
   var userData = {};
   bool loading = false;
 
@@ -58,7 +58,7 @@ class _ProfileState extends State<Profile> {
             ),
             body: Column(
               children: <Widget>[
-                ProfileCard(userData: userData),
+                MyProfileCard(userData: userData),
               ],
             ),
             floatingActionButton: FloatingActionButton(

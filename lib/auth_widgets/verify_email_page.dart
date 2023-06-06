@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:gym_gram/main.dart';
 import 'package:gym_gram/widgets/HomeScreen.dart';
 
+import 'LoginOrRegisterPage.dart';
+
 class VerifyEmailPage extends StatefulWidget {
   @override
   _VerifyEmailPageState createState() => _VerifyEmailPageState();
@@ -104,7 +106,22 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                     fontSize: 20,
                     fontFamily: 'FjallaOne',
                   ),
-                ))
+                )),
+            // TextButton(
+            //     onPressed: () async {
+            //       Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //               builder: (context) => LoginOrRegisterPage()));
+            //     },
+            //     child: Text(
+            //       'Send again',
+            //       textAlign: TextAlign.center,
+            //       style: TextStyle(
+            //         fontSize: 20,
+            //         fontFamily: 'FjallaOne',
+            //       ),
+            //     ))
             //To DO: Cancel button -> login_or_register_page
           ]));
     }

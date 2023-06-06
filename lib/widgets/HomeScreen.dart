@@ -3,8 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_gram/widgets/AddPostScreen.dart';
 
+import 'SearchScreen.dart';
 import 'WorkoutScreen.dart';
-import 'ProfileScreen.dart';
+import 'MyProfileScreen.dart';
 import 'FeedScreen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,9 +22,10 @@ class _HomeScreenState extends State<HomeScreen> {
   late PageController pageController;
   List<Widget> homeScreenItems = [
     FeedScreen(),
+    SearchScreen(),
     AddPostScreen(),
     MyWorkoutsPage(),
-    Profile(uid: FirebaseAuth.instance.currentUser!.uid),
+    MyProfile(uid: FirebaseAuth.instance.currentUser!.uid),
     // const SearchScreen(),
     // const AddPostScreen(),
     // const Text('notifications'),
@@ -83,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
               margin: EdgeInsets.only(top: 8),
               child: Icon(
                 size: 40,
-                Icons.add,
+                Icons.search,
                 color: (_page == 1) ? Colors.blue : Colors.grey,
               ),
             ),
@@ -95,8 +97,20 @@ class _HomeScreenState extends State<HomeScreen> {
               margin: EdgeInsets.only(top: 8),
               child: Icon(
                 size: 40,
-                Icons.list,
+                Icons.add,
                 color: (_page == 2) ? Colors.blue : Colors.grey,
+              ),
+            ),
+            label: '',
+            backgroundColor: Colors.grey,
+          ),
+          BottomNavigationBarItem(
+            icon: Container(
+              margin: EdgeInsets.only(top: 8),
+              child: Icon(
+                size: 40,
+                Icons.list,
+                color: (_page == 3) ? Colors.blue : Colors.grey,
               ),
             ),
             label: '',
@@ -109,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Icon(
                 size: 40,
                 Icons.person,
-                color: (_page == 3) ? Colors.blue : Colors.grey,
+                color: (_page == 4) ? Colors.blue : Colors.grey,
               ),
             ),
             label: '',

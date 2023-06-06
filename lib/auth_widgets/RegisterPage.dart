@@ -31,11 +31,13 @@ class _RegisterPageState extends State<RegisterPage> {
           password: passwordController.text,
         );
         model.User user = model.User(
-            email: usernameController.text,
-            username: usernameController.text.split('@')[0],
-            uid: cred.user!.uid,
-            photoUrl: '');
-
+          email: usernameController.text,
+          username: usernameController.text.split('@')[0],
+          uid: cred.user!.uid,
+          photoUrl: '',
+          followers: [],
+          following: [],
+        );
         await FirebaseFirestore.instance
             .collection('users')
             .doc(cred.user!.uid)
