@@ -2,10 +2,8 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gym_gram/main.dart';
 import 'package:gym_gram/widgets/HomeScreen.dart';
 
-import 'LoginOrRegisterPage.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   @override

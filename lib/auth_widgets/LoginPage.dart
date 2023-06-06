@@ -27,8 +27,6 @@ class _LoginPageState extends State<LoginPage> {
         password: passwordController.text,
       );
       print('Sign-in successful');
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => HomeScreen()));
     } on FirebaseAuthException catch (e) {
       showErrorMessage();
     }
@@ -38,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
     showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
+          return const AlertDialog(
               backgroundColor: Colors.black,
               title: Center(
                 child: Text("Wrong username or password",
