@@ -48,6 +48,8 @@ class _UserProfileCardState extends State<UserProfileCard> {
     return loading == true
         ? const LinearProgressIndicator(color: Colors.orange)
         : Card(
+          color: Colors.transparent,
+          elevation: 5,
             child: Container(
               height: 190,
               child: Column(
@@ -157,7 +159,7 @@ class _UserProfileCardState extends State<UserProfileCard> {
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     color: Colors.white,
-                                    width: 2.0,
+                                    width: 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),

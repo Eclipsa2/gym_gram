@@ -70,6 +70,8 @@ class _WorkoutCardState extends State<WorkoutCard> {
     return Container(
       height: 80,
       child: Card(
+        color: Colors.transparent,
+        elevation: 5,
         child:
             Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
           Flexible(

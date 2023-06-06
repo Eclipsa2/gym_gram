@@ -14,7 +14,7 @@ class ExerciseList extends StatelessWidget {
         itemCount: exercises.length,
         itemBuilder: (context, index) {
           final exercise = exercises[index];
-          return ExerciseCard(exercise: exercise);
+          return ExerciseCard(exercise: exercise, editable: true,);
         },
       ),
     );

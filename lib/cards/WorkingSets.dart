@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 
 class WorkingSets extends StatefulWidget {
   String exerciseId;
+  bool editable;
 
-  WorkingSets({required this.exerciseId});
+  WorkingSets({required this.exerciseId, required this.editable});
 
   @override
   _WorkingSetsState createState() => _WorkingSetsState();
@@ -51,10 +52,12 @@ class _WorkingSetsState extends State<WorkingSets> {
     return Column(
       children: [
         if (!_isAddingSet)
-          TextButton(
-            onPressed: _addSet,
-            child: Text('Add set'),
-          ),
+          widget.editable != true
+              ? SizedBox()
+              : TextButton(
+                  onPressed: _addSet,
+                  child: Text('Add set'),
+                ),
         if (_isAddingSet)
           Row(
             children: [

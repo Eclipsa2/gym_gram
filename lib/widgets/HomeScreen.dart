@@ -60,12 +60,19 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        children: homeScreenItems,
-        controller: pageController,
-        onPageChanged: onPageChanged,
+      backgroundColor: Colors.transparent,
+      body: Container(
+        decoration: const BoxDecoration(
+          color: Colors.transparent,
+        ),
+        child: PageView(
+          children: homeScreenItems,
+          controller: pageController,
+          onPageChanged: onPageChanged,
+        ),
       ),
       bottomNavigationBar: CupertinoTabBar(
+        backgroundColor: Colors.transparent,
         height: 60,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -82,6 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Container(
+              color: Colors.transparent,
               margin: EdgeInsets.only(top: 8),
               child: Icon(
                 size: 40,

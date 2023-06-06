@@ -34,7 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
           email: usernameController.text,
           username: usernameController.text.split('@')[0],
           uid: cred.user!.uid,
-          photoUrl: '',
+          photoUrl: "https://www.personality-insights.com/wp-content/uploads/2017/12/default-profile-pic-e1513291410505.jpg",
           followers: [],
           following: [],
         );
@@ -67,103 +67,108 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 60),
-                const Text(
-                  "GymGram",
-                  style: TextStyle(
-                    fontFamily: 'FjallaOne',
-                    fontSize: 50,
-                  ),
-                ),
-                // logo
-                Image.asset(
-                  'assets/images/logo_login.png',
-                  height: 200,
-                ),
-
-                const SizedBox(height: 50),
-
-                // Let's get you started!
-                const Text(
-                  'Let\'s get you started!',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                // username textfield
-                MyTextField(
-                  controller: usernameController,
-                  hintText: 'Username',
-                  obscureText: false,
-                ),
-
-                const SizedBox(height: 10),
-
-                // password textfield
-                MyTextField(
-                  controller: passwordController,
-                  hintText: 'Password',
-                  obscureText: true,
-                ),
-
-                const SizedBox(height: 10),
-
-                MyTextField(
-                  controller: confirmPasswordController,
-                  hintText: 'Confirm Password',
-                  obscureText: true,
-                ),
-
-                const SizedBox(height: 25),
-
-                // sign in button
-                MyButton(
-                  onTap: signUp,
-                ),
-
-                const SizedBox(height: 50),
-
-                const SizedBox(height: 50),
-
-                const SizedBox(height: 50),
-
-                // not a member? register now
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Already have an account?',
-                      style: TextStyle(color: Colors.grey[700]),
+    return Stack(
+      children: [
+        Container( 
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/bg.png'), // Replace with your image path
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 120),
+                  Image.asset(
+                      'assets/images/gymGram.png',
+                      height: 120,
                     ),
-                    const SizedBox(width: 4),
-                    GestureDetector(
-                      onTap: widget.onTap!,
-                      child: const Text(
-                        'Login now',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
+    
+                  const SizedBox(height: 50),
+    
+                  // Let's get you started!
+                  const Text(
+                    'Let\'s get you started!',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+    
+                  const SizedBox(height: 25),
+    
+                  // username textfield
+                  MyTextField(
+                    controller: usernameController,
+                    hintText: 'Email',
+                    obscureText: false,
+                  ),
+    
+                  const SizedBox(height: 10),
+    
+                  // password textfield
+                  MyTextField(
+                    controller: passwordController,
+                    hintText: 'Password',
+                    obscureText: true,
+                  ),
+    
+                  const SizedBox(height: 10),
+    
+                  MyTextField(
+                    controller: confirmPasswordController,
+                    hintText: 'Confirm Password',
+                    obscureText: true,
+                  ),
+    
+                  const SizedBox(height: 25),
+    
+                  // sign in button
+                  MyButton(
+                    onTap: signUp,
+                  ),
+    
+                  const SizedBox(height: 50),
+    
+                  const SizedBox(height: 50),
+    
+                  const SizedBox(height: 50),
+    
+                  // not a member? register now
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Already have an account?',
+                        style: TextStyle(color: Colors.grey[100]),
+                      ),
+                      const SizedBox(width: 4),
+                      GestureDetector(
+                        onTap: widget.onTap!,
+                        child: const Text(
+                          'Login now',
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                )
-              ],
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
       ),
+      ],
     );
   }
 }

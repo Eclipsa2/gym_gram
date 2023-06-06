@@ -82,6 +82,8 @@ class _MyProfileCardState extends State<MyProfileCard> {
     followersNr = widget.userData['followers'].length;
     followingNr = widget.userData['following'].length;
     return Card(
+      color: Colors.transparent,
+      elevation: 5,
       child: Container(
         height: 150,
         child: Column(

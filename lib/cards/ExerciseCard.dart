@@ -10,7 +10,8 @@ import 'WorkingSets.dart';
 
 class ExerciseCard extends StatelessWidget {
   final DocumentSnapshot exercise;
-  ExerciseCard({required this.exercise});
+  bool editable;
+  ExerciseCard({required this.exercise, required this.editable});
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +43,7 @@ class ExerciseCard extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: WorkingSets(
                     exerciseId: exercise.id,
+                    editable: editable,
                   ),
                 ),
               ),

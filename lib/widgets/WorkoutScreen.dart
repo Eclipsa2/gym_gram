@@ -76,106 +76,117 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
       );
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: const Text(
-          "Workouts",
-          style: TextStyle(
-            fontFamily: 'FjallaOne',
-            fontSize: 35,
+    return Stack(
+      children: [ 
+        Container( 
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/bg2.png'), // Replace with your image path
+              fit: BoxFit.cover,
+            ),
           ),
         ),
-      ),
-
-      // StreamBuilder helps keeping persistent connection with firestore database
-      body: StreamBuilder<QuerySnapshot>(
-          stream: _workouts.orderBy('start', descending: true).snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            // if (snapshot.hasError) {
-            //   return Text('Something went wrong');
-            // }
-
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator.adaptive();
-            }
-
-            if (snapshot.hasData) {
-              var workouts = snapshot.data!.docs
-                  .where((workout) => workout.get('userId') == currentUser?.uid)
-                  .toList();
-
-              return ListView.builder(
-                itemCount: workouts.length,
-                itemBuilder: (context, index) {
-                  //* DocumentSnapshot contains the rows of the workout table
-                  DocumentSnapshot workout = workouts[index];
-
-                  // var updated_workout=workout;
-                  return GestureDetector(
-                      onTap: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  EditWorkoutPage(workout: workout)),
-                        ).then((updatedWorkout) => setState(() {
-                              workout = updatedWorkout;
-                            }));
-                      },
-                      child: Column(
-                        children: <Widget>[
-                          Dismissible(
-                              key: Key(workout.id),
-                              background: Container(
-                                color: Colors.red,
-                                alignment: Alignment.centerRight,
-                                padding: EdgeInsets.only(right: 20.0),
-                                child: const Icon(
-                                  Icons.delete,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              onDismissed: (direction) {
-                                _delete(workout.id);
-                              },
-                              child: WorkoutCard(workout: workout)),
-                        ],
-                      ));
-                },
-              );
-              // Column(
-              //   crossAxisAlignment: CrossAxisAlignment.center,
-              //   children: <Widget>[
-              //     //* Passing all the rows of _workouts to be displayed as list
-              //     WorkoutsList(
-              //       workouts: snapshot.data!.docs
-              //           .where((workout) =>
-              //               workout.get('userId') == currentUser?.uid)
-              //           .toList(),
-              //       deleteHandler: _delete,
-              //     ),
-              //   ],
-              // );
-            } else {
-              // Handle the snapshot loading state
-              return CircularProgressIndicator.adaptive();
-            }
-          }),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            backgroundColor: Colors.orange,
-            heroTag: 'addWorkout',
-            onPressed: () async {
-              await _addWorkout();
-            },
-            child: Icon(Icons.add),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          actions: [
+            TextButton(
+                onPressed: _addWorkout,
+                child: Text('Add',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.orange,
+                      fontWeight: FontWeight.bold,
+                    )))
+          ],
+          backgroundColor: Colors.transparent,
+          title: const Text(
+            "Workouts",
+            style: TextStyle(
+              fontFamily: 'FjallaOne',
+              fontSize: 35,
+            ),
           ),
-        ],
-      ),
+        ),
+    
+        // StreamBuilder helps keeping persistent connection with firestore database
+        body: 
+         StreamBuilder<QuerySnapshot>(
+            stream: _workouts.orderBy('start', descending: true).snapshots(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              // if (snapshot.hasError) {
+              //   return Text('Something went wrong');
+              // }
+    
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator.adaptive();
+              }
+    
+              if (snapshot.hasData) {
+                var workouts = snapshot.data!.docs
+                    .where((workout) => workout.get('userId') == currentUser?.uid)
+                    .toList();
+    
+                return ListView.builder(
+                  itemCount: workouts.length,
+                  itemBuilder: (context, index) {
+                    //* DocumentSnapshot contains the rows of the workout table
+                    DocumentSnapshot workout = workouts[index];
+    
+                    // var updated_workout=workout;
+                    return GestureDetector(
+                        onTap: () async {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    EditWorkoutPage(workout: workout)),
+                          ).then((updatedWorkout) => setState(() {
+                                workout = updatedWorkout;
+                              }));
+                        },
+                        child: Column(
+                          children: <Widget>[
+                            Dismissible(
+                                key: Key(workout.id),
+                                background: Container(
+                                  color: Colors.red,
+                                  alignment: Alignment.centerRight,
+                                  padding: EdgeInsets.only(right: 20.0),
+                                  child: const Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                onDismissed: (direction) {
+                                  _delete(workout.id);
+                                },
+                                child: WorkoutCard(workout: workout)),
+                          ],
+                        ));
+                  },
+                );
+                // Column(
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   children: <Widget>[
+                //     //* Passing all the rows of _workouts to be displayed as list
+                //     WorkoutsList(
+                //       workouts: snapshot.data!.docs
+                //           .where((workout) =>
+                //               workout.get('userId') == currentUser?.uid)
+                //           .toList(),
+                //       deleteHandler: _delete,
+                //     ),
+                //   ],
+                // );
+              } else {
+                // Handle the snapshot loading state
+                return CircularProgressIndicator.adaptive();
+              }
+            }),
+        ),
+      ],
     );
   }
 }

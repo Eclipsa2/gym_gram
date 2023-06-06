@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:gym_gram/cards/WorkoutCard.dart';
+import 'package:gym_gram/widgets/WorkoutDetail.dart';
 
 import '../widgets/UserProfileScreen.dart';
 
@@ -127,8 +128,30 @@ class _PostCardState extends State<PostCard> {
                               Image.network(fit: BoxFit.cover, widget.photoUrl),
                         ),
                       ),
-                      Container(
-                          height: 80, child: WorkoutCard(workout: workout)),
+                      GestureDetector(
+                        onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                          transitionDuration:
+                                              const Duration(milliseconds: 200),
+                                            reverseTransitionDuration: const Duration(milliseconds: 200),
+                                          opaque: false,
+                                          pageBuilder: (context,
+                                              Animation<double> animation,
+                                              Animation<double>
+                                                  secondaryAnimation) {
+                                            return FadeTransition(
+                                              opacity: animation,
+                                              child: WorkoutDetail(workout: workout),
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
+                        child: Container(
+                            height: 80, child: WorkoutCard(workout: workout)),
+                      ),
                       Container(
                         padding: EdgeInsets.only(top: 5, left: 10),
                         height: 20,

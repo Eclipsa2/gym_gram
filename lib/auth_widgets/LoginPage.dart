@@ -47,115 +47,121 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // const SizedBox(height: 20),
-                const Text(
-                  "GymGram",
-                  style: TextStyle(
-                    fontFamily: 'FjallaOne',
-                    fontSize: 50,
-                  ),
-                ),
-                // logo
-                Image.asset(
-                  'assets/images/logo_login.png',
-                  height: 200,
-                ),
-
-                const SizedBox(height: 50),
-
-                // welcome back, you've been missed!
-                const Text(
-                  'Welcome back, you\'ve been missed!',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontFamily: 'FjallaOne',
-                    // fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                const SizedBox(height: 50),
-
-                // username textfield
-                MyTextField(
-                  controller: usernameController,
-                  hintText: 'Username',
-                  obscureText: false,
-                ),
-
-                const SizedBox(height: 10),
-
-                // password textfield
-                MyTextField(
-                  controller: passwordController,
-                  hintText: 'Password',
-                  obscureText: true,
-                ),
-
-                const SizedBox(height: 10),
-
-                // forgot password?
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                        onTap: () => {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ForgotPasswordPage()))
-                        },
-                        child: Text(
-                          'Forgot Password?',
-                          style: TextStyle(color: Colors.grey[500]),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                // sign in button
-                MyButton(
-                  onTap: signIn,
-                ),
-
-                const SizedBox(height: 50),
-
-                // not a member? register now
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Not a member?',
-                      style: TextStyle(color: Colors.grey[500], fontSize: 20),
-                    ),
-                    const SizedBox(width: 4),
-                    GestureDetector(
-                      onTap: widget.tapSwitch,
-                      child: const Text(
-                        'Register now',
-                        style: TextStyle(
-                          color: Colors.orange,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              ],
+    return Stack(
+      children: [
+        Container(
+            decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/bg.png'), // Replace with your image path
+              fit: BoxFit.cover,
             ),
           ),
         ),
-      ),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // const SizedBox(height: 20),
+                    // logo
+                    Image.asset(
+                      'assets/images/gymGram.png',
+                      height: 120,
+                    ),
+          
+                    const SizedBox(height: 50),
+          
+                    // welcome back, you've been missed!
+                    const Text(
+                      'Welcome back, you\'ve been missed!',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontFamily: 'FjallaOne',
+                        // fontWeight: FontWeight.bold,
+                      ),
+                    ),
+          
+                    const SizedBox(height: 50),
+          
+                    // username textfield
+                    MyTextField(
+                      controller: usernameController,
+                      hintText: 'Email',
+                      obscureText: false,
+                    ),
+          
+                    const SizedBox(height: 10),
+          
+                    // password textfield
+                    MyTextField(
+                      controller: passwordController,
+                      hintText: 'Password',
+                      obscureText: true,
+                    ),
+          
+                    const SizedBox(height: 10),
+          
+                    // forgot password?
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () => {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ForgotPasswordPage()))
+                            },
+                            child: Text(
+                              'Forgot Password?',
+                              style: TextStyle(color: Colors.grey[500]),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+          
+                    const SizedBox(height: 25),
+          
+                    // sign in button
+                    MyButton(
+                      onTap: signIn,
+                    ),
+          
+                    const SizedBox(height: 50),
+          
+                    // not a member? register now
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Not a member?',
+                          style: TextStyle(color: Colors.grey[100], fontSize: 20),
+                        ),
+                        const SizedBox(width: 4),
+                        GestureDetector(
+                          onTap: widget.tapSwitch,
+                          child: const Text(
+                            'Register now',
+                            style: TextStyle(
+                              color: Colors.orange,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ]
     );
   }
 }

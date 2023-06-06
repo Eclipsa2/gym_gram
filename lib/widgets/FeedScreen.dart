@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:gym_gram/widgets/AddPostScreen.dart';
 
 import '../cards/PostCard.dart';
 
@@ -49,19 +47,14 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: Colors.orange,
-      //   heroTag: 'addPost',
-      //   onPressed: () {
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(builder: (context) => AddPostScreen()),
-      //     );
-      //   },
-      //   child: Icon(Icons.add),
-      // ),
-      body: loading == true
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/bg2.png'), // Replace with your image path
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: loading == true
           ? const LinearProgressIndicator(color: Colors.orange)
           : StreamBuilder(
               stream:
@@ -89,27 +82,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     });
               },
             ),
-      //
-      //(workoutsList == null)
-      //     ? const LinearProgressIndicator(
-      //         color: Colors.orange,
-      //       )
-      //     : SingleChildScrollView(
-      //         child: Column(
-      //           children: [
-      //             PostCard(
-      //               username: '',
-      //               photoUrl: '',
-      //               workout: workoutsList[1],
-      //             ),
-      //             PostCard(
-      //               username: '',
-      //               photoUrl: '',
-      //               workout: workoutsList[2],
-      //             ),
-      //           ],
-      //         ),
-      //       ),
+      ),
     );
   }
 }
