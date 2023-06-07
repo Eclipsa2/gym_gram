@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
+import 'package:gym_gram/utils/utils.dart';
 import 'package:intl/intl.dart';
 
 class WorkoutCard extends StatefulWidget {
@@ -83,10 +84,11 @@ class _WorkoutCardState extends State<WorkoutCard> {
               children: [
                 Text(
                   widget.workout['workoutName'],
+                  overflow: TextOverflow.ellipsis,
                   //  workout.workoutName,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontSize: 1.0 / deviceFontSize * 2000,
                     color: Colors.blue,
                   ),
                 ),

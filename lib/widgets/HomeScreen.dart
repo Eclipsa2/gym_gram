@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gym_gram/utils/utils.dart';
 import 'package:gym_gram/widgets/AddPostScreen.dart';
 
 import 'SearchScreen.dart';
@@ -18,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   int _page = 0;
   late PageController pageController;
   List<Widget> homeScreenItems = [
@@ -59,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    getScreenSize(context);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(

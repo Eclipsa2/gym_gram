@@ -77,8 +77,11 @@ class _MyProfileCardState extends State<MyProfileCard> {
         });
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
+    print(deviceFontSize);
     followersNr = widget.userData['followers'].length;
     followingNr = widget.userData['following'].length;
     return Card(

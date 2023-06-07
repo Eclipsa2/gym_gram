@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:gym_gram/cards/WorkoutCard.dart';
+import 'package:gym_gram/utils/utils.dart';
 import 'package:gym_gram/widgets/WorkoutDetail.dart';
 
 import '../widgets/UserProfileScreen.dart';
@@ -67,112 +68,120 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
+    print(screenWidth);
     return Column(
       children: [
         const SizedBox(
           height: 50,
         ),
-        Card(
-            color: Color.fromARGB(0, 0, 0, 0),
-            margin: EdgeInsets.only(left: 10, right: 10),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color.fromARGB(0, 0, 0, 0),
-                border: Border.all(color: Colors.black54, width: 0.0),
-                borderRadius: BorderRadius.circular(8.0),
-              ),
+        LayoutBuilder(builder: (context, constraints) {
+          // final screenWidth = constraints.maxWidth;
+          // final screenHeight = constraints.maxHeight;
+          // final scalingFactor = 0.5; // Adjust the scaling factor as needed
+          // final containerHeight = screenWidth * scalingFactor;
+          print(screenHeight);
+          return Card(
+              color: Color.fromARGB(0, 0, 0, 0),
+              margin: EdgeInsets.only(left: 10, right: 10),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(0, 0, 0, 0),
+                  border: Border.all(color: Colors.black54, width: 0.0),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
 
-              height: 660,
-              // padding: EdgeInsets.only(left: 20, right: 20),
-              child: (profilePicUrl == '')
-                  ? SizedBox()
-                  : Column(
-                      children: [
-                        Container(
-                          height: 50,
-                          width: double.infinity,
-                          child: Container(
-                            padding: EdgeInsets.only(left: 10),
-                            height: 25,
+                height: screenHeight * 0.77,
+                // padding: EdgeInsets.only(left: 20, right: 20),
+                child: (profilePicUrl == '')
+                    ? SizedBox()
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            height: 50,
                             width: double.infinity,
-                            alignment: Alignment.centerLeft,
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          UserProfile(uid: widget.uid),
-                                    ));
-                              },
-                              child: Row(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 17,
-                                    backgroundImage:
-                                        NetworkImage(profilePicUrl),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 7),
-                                    child: Text(
-                                      username,
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: double.infinity,
-                          //height: 400,
-                          child: AspectRatio(
-                            aspectRatio: 4 / 5,
-                            child: Image.network(
-                                fit: BoxFit.cover, widget.photoUrl),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              PageRouteBuilder(
-                                transitionDuration:
-                                    const Duration(milliseconds: 200),
-                                reverseTransitionDuration:
-                                    const Duration(milliseconds: 200),
-                                opaque: false,
-                                pageBuilder: (context,
-                                    Animation<double> animation,
-                                    Animation<double> secondaryAnimation) {
-                                  return FadeTransition(
-                                    opacity: animation,
-                                    child: WorkoutDetail(workout: workout),
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                          child: Container(
-                              height: 80, child: WorkoutCard(workout: workout)),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(top: 5, left: 10),
-                          height: 20,
-                          child: Row(children: [
-                            Container(
-                              child: Icon(Icons.heart_broken, size: 30),
-                            ),
-                            Container(
+                            child: Container(
                               padding: EdgeInsets.only(left: 10),
-                              child: Icon(Icons.comment_rounded, size: 30),
-                            )
-                          ]),
-                        )
-                      ],
-                    ),
-            )),
+                              height: 25,
+                              width: double.infinity,
+                              alignment: Alignment.centerLeft,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            UserProfile(uid: widget.uid),
+                                      ));
+                                },
+                                child: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 17,
+                                      backgroundImage:
+                                          NetworkImage(profilePicUrl),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.only(left: 7),
+                                      child: Text(
+                                        username,
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          AspectRatio(
+                            aspectRatio: 4 / 5,
+                            child: Image(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                widget.photoUrl,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  transitionDuration:
+                                      const Duration(milliseconds: 200),
+                                  reverseTransitionDuration:
+                                      const Duration(milliseconds: 200),
+                                  opaque: false,
+                                  pageBuilder: (context,
+                                      Animation<double> animation,
+                                      Animation<double> secondaryAnimation) {
+                                    return FadeTransition(
+                                      opacity: animation,
+                                      child: WorkoutDetail(workout: workout),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                            child:
+                                Container(child: WorkoutCard(workout: workout)),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(top: 5, left: 10),
+                            child: Row(children: [
+                              Container(
+                                child: Icon(Icons.heart_broken, size: 30),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(left: 10),
+                                child: Icon(Icons.comment_rounded, size: 30),
+                              )
+                            ]),
+                          )
+                        ],
+                      ),
+              ));
+        }),
       ],
     );
   }
