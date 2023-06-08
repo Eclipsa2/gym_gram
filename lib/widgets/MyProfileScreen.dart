@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,9 @@ class MyProfile extends StatefulWidget {
   State<MyProfile> createState() => _MyProfileState();
 }
 
-class _MyProfileState extends State<MyProfile> {
+class _MyProfileState extends State<MyProfile> with AutomaticKeepAliveClientMixin<MyProfile> {
+   @override
+  bool get wantKeepAlive => true; // Set to true to prevent rebuild
   var userData = {};
   bool loading = false;
 
@@ -45,15 +48,17 @@ class _MyProfileState extends State<MyProfile> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Stack(children: [
-      Container( 
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/bg2.png'), // Replace with your image path
-              fit: BoxFit.cover,
-            ),
+      Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+                'assets/images/bg2.png'), // Replace with your image path
+            fit: BoxFit.cover,
           ),
         ),
+      ),
       Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -105,9 +110,9 @@ class _MyProfileState extends State<MyProfile> {
                               DocumentSnapshot post = posts[index];
                               return GestureDetector(
                                 onLongPress: () async {
-                                  await FirestoreMethods().deletePost(post['postId']);
-                                  setState(() {                                   
-                                  });
+                                  await FirestoreMethods()
+                                      .deletePost(post['postId']);
+                                  setState(() {});
                                 },
                                 onTap: () {
                                   Navigator.push(
@@ -131,9 +136,13 @@ class _MyProfileState extends State<MyProfile> {
                                   );
                                 },
                                 child: Container(
-                                  child: Image(
+                                  child: CachedNetworkImage(
                                     fit: BoxFit.cover,
-                                    image: NetworkImage(post['photoUrl']),
+                                    imageUrl: post['photoUrl'],
+                                    placeholder: (context, url) =>
+                                        Container(height: 10, width: 10, alignment: Alignment.center, child: const CircularProgressIndicator()),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   ),
                                 ),
                               );

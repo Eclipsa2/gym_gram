@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -48,8 +49,8 @@ class _UserProfileCardState extends State<UserProfileCard> {
     return loading == true
         ? const LinearProgressIndicator(color: Colors.orange)
         : Card(
-          color: Colors.transparent,
-          elevation: 5,
+            color: Colors.transparent,
+            elevation: 5,
             child: Container(
               height: 190,
               child: Column(
@@ -63,17 +64,11 @@ class _UserProfileCardState extends State<UserProfileCard> {
                           alignment: Alignment.center,
                           //padding: EdgeInsets.only(top: 12, left: 20),
                           height: 150,
-                          child: url == ""
-                              ? const CircleAvatar(
+                          child: CircleAvatar(
                                   radius: 64,
-                                  backgroundImage: NetworkImage(
-                                      "https://www.personality-insights.com/wp-content/uploads/2017/12/default-profile-pic-e1513291410505.jpg"),
-                                )
-                              : CircleAvatar(
-                                  radius: 64,
-                                  backgroundImage:
-                                      // MemoryImage(_image!),
-                                      NetworkImage(url),
+                                  backgroundImage: CachedNetworkImageProvider(
+                                    url,
+                                  ),
                                 ),
                         ),
                       ),

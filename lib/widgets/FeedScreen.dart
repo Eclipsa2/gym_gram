@@ -11,7 +11,10 @@ class FeedScreen extends StatefulWidget {
   State<FeedScreen> createState() => _FeedScreenState();
 }
 
-class _FeedScreenState extends State<FeedScreen> {
+class _FeedScreenState extends State<FeedScreen> with AutomaticKeepAliveClientMixin<FeedScreen> {
+  @override
+  bool get wantKeepAlive => true; // Set to true to prevent rebuild
+
   User? currentUser = FirebaseAuth.instance.currentUser;
   var userData;
   late List following;
@@ -46,6 +49,7 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Stack(
       children: [
         Container(

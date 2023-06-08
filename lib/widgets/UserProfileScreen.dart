@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -120,11 +121,13 @@ class _UserProfileState extends State<UserProfile> {
                                       );
                                     },
                                 child: Container(
-                                  child: Image(
-                                    fit: BoxFit.fill,
-                                    image: NetworkImage(
-                                      post['photoUrl']
-                                    ),
+                                  child: CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    imageUrl: post['photoUrl'],
+                                    placeholder: (context, url) =>
+                                        Container(height: 10, width: 10, alignment: Alignment.center, child: const CircularProgressIndicator()),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
                                   ),
                                 ),
                               );

@@ -5,6 +5,8 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:gym_gram/cards/WorkoutCard.dart';
 import 'package:gym_gram/utils/utils.dart';
 import 'package:gym_gram/widgets/WorkoutDetail.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../widgets/UserProfileScreen.dart';
 
@@ -135,12 +137,19 @@ class _PostCardState extends State<PostCard> {
                           ),
                           AspectRatio(
                             aspectRatio: 4 / 5,
-                            child: Image(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                widget.photoUrl,
-                              ),
+                            child: CachedNetworkImage(
+                              imageUrl: widget.photoUrl,
+                              placeholder: (context, url) =>
+                                  Container(height: 10, width: 10, alignment: Alignment.center, child: const CircularProgressIndicator()),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
                             ),
+                            // Image(
+                            //   fit: BoxFit.cover,
+                            //   image: NetworkImage(
+                            //     widget.photoUrl,
+                            //   ),
+                            // ),
                           ),
                           GestureDetector(
                             onTap: () {

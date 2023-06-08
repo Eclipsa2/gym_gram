@@ -19,22 +19,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
+  List<Widget> homeScreenItems = [];
   int _page = 0;
   late PageController pageController;
-  List<Widget> homeScreenItems = [
-    FeedScreen(),
-    SearchScreen(),
-    AddPostScreen(),
-    MyWorkoutsPage(),
-    MyProfile(uid: FirebaseAuth.instance.currentUser!.uid),
-    // const SearchScreen(),
-    // const AddPostScreen(),
-    // const Text('notifications'),
-    // ProfileScreen(
-    //   uid: FirebaseAuth.instance.currentUser!.uid,
-    // ),
-  ];
+  
 
   void navigationTapped(int page) {
     //Animating Page
@@ -45,6 +33,13 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     pageController = PageController();
+    homeScreenItems = [
+    const FeedScreen(),
+    const SearchScreen(),
+    const AddPostScreen(),
+    const MyWorkoutsPage(),
+    MyProfile(uid: FirebaseAuth.instance.currentUser!.uid),
+  ];
   }
 
   @override

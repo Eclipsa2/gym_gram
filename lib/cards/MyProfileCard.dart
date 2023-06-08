@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_gram/resources/storage_methods.dart';
@@ -77,8 +78,6 @@ class _MyProfileCardState extends State<MyProfileCard> {
         });
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     print(deviceFontSize);
@@ -101,19 +100,12 @@ class _MyProfileCardState extends State<MyProfileCard> {
                     //padding: EdgeInsets.only(top: 12, left: 20),
                     height: 150,
                     child: Stack(children: [
-                      // _image == null
-                      url == ""
-                          ? const CircleAvatar(
-                              radius: 64,
-                              backgroundImage: NetworkImage(
-                                  "https://www.personality-insights.com/wp-content/uploads/2017/12/default-profile-pic-e1513291410505.jpg"),
-                            )
-                          : CircleAvatar(
-                              radius: 64,
-                              backgroundImage:
-                                  // MemoryImage(_image!),
-                                  NetworkImage(url),
-                            ),
+                      CircleAvatar(
+                        radius: 64,
+                        backgroundImage: CachedNetworkImageProvider(
+                          url,
+                        ),
+                      ),
                       Positioned(
                           bottom: 0,
                           left: 80,
