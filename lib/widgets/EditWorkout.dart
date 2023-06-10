@@ -75,6 +75,7 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
 
     // AppBar menu
     final appBar = AppBar(
+      backgroundColor: Colors.transparent,
       title: GestureDetector(
         onTap: () => _showEditWorkoutNameDialog(context),
         child: Text(_workout['workoutName']),
@@ -88,41 +89,49 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
 
     return WillPopScope(
       onWillPop: () {
-        // DocumentSnapshot updatedWorkout =
         _workout.reference.get().then((value) => Navigator.pop(context, value));
-        // Handle the back button press here
-        // Call your custom Navigator.pop() or perform any other custom behavior
-        // Navigator.pop(context, updatedWorkout);
         return Future.value(
             false); // Return false to prevent the default back button behavior
       },
-      child: Scaffold(
-          appBar: appBar,
-          body: StreamBuilder<QuerySnapshot>(
-            stream: _exercises.snapshots(),
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Text('Loading');
-              }
-
-              if (snapshot.hasData) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    ExerciseList(
-                      exercises: snapshot.data!.docs
-                          .where((exercise) =>
-                              exercise.get('workoutId') == _workout.get("id"))
-                          .toList(),
-                    )
-                  ],
-                );
-              } else {
-                return CircularProgressIndicator.adaptive();
-              }
-            },
-          )),
+      child: Stack(
+        children: [
+          Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/bg2.png'), // Replace with your image path
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: appBar,
+            body: StreamBuilder<QuerySnapshot>(
+              stream: _exercises.snapshots(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Text('Loading');
+                }
+      
+                if (snapshot.hasData) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      ExerciseList(
+                        exercises: snapshot.data!.docs
+                            .where((exercise) =>
+                                exercise.get('workoutId') == _workout.get("id"))
+                            .toList(),
+                      )
+                    ],
+                  );
+                } else {
+                  return CircularProgressIndicator.adaptive();
+                }
+              },
+            )),],
+      ),
     );
   }
 
