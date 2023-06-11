@@ -1,5 +1,4 @@
 // ignore: file_names
-import 'package:flutter/foundation.dart';
 
 //WorkingSet class which holds the number of reps and the weight for an exercise
 

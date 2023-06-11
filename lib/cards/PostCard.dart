@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:gym_gram/cards/WorkoutCard.dart';
 import 'package:gym_gram/utils/utils.dart';
 import 'package:gym_gram/widgets/WorkoutDetail.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../widgets/UserProfileScreen.dart';
 

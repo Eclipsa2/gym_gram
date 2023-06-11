@@ -1,7 +1,6 @@
 // ignore: file_names
 import 'package:gym_gram/models/WorkoutExercise.dart';
 
-import 'Exercise.dart';
 
 //Workout class contains some general stats regarding the workout performed by
 //the user and a list of the exercises done. It also contains start time of the

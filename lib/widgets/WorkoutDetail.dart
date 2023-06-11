@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../cards/ExerciseCard.dart';
-import 'ExerciseList.dart';
 
 class WorkoutDetail extends StatelessWidget {
   final DocumentSnapshot workout;

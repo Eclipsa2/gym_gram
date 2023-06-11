@@ -1,12 +1,9 @@
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:gym_gram/cards/ExerciseCard.dart';
 import 'package:gym_gram/models/Exercise.dart';
 import './AddExercise.dart';
 import 'ExerciseList.dart';
-import '../models/WorkoutExercise.dart';
 //Initialization of Muscles enum:
 
 class EditWorkoutPage extends StatefulWidget {

@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'WorkingSet.dart';
-import 'package:json_annotation/json_annotation.dart';
 //Exercise class contains the name of the exercise performed by the user,
 //the muscle groups the exercise targets and a list of WorkingSets
 
