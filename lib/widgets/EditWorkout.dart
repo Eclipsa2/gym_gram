@@ -1,12 +1,9 @@
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:gym_gram/cards/ExerciseCard.dart';
 import 'package:gym_gram/models/Exercise.dart';
 import './AddExercise.dart';
 import 'ExerciseList.dart';
-import '../models/WorkoutExercise.dart';
 //Initialization of Muscles enum:
 
 class EditWorkoutPage extends StatefulWidget {
@@ -75,6 +72,7 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
 
     // AppBar menu
     final appBar = AppBar(
+      backgroundColor: Colors.transparent,
       title: GestureDetector(
         onTap: () => _showEditWorkoutNameDialog(context),
         child: Text(_workout['workoutName']),
@@ -88,41 +86,49 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
 
     return WillPopScope(
       onWillPop: () {
-        // DocumentSnapshot updatedWorkout =
         _workout.reference.get().then((value) => Navigator.pop(context, value));
-        // Handle the back button press here
-        // Call your custom Navigator.pop() or perform any other custom behavior
-        // Navigator.pop(context, updatedWorkout);
         return Future.value(
             false); // Return false to prevent the default back button behavior
       },
-      child: Scaffold(
-          appBar: appBar,
-          body: StreamBuilder<QuerySnapshot>(
-            stream: _exercises.snapshots(),
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Text('Loading');
-              }
-
-              if (snapshot.hasData) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    ExerciseList(
-                      exercises: snapshot.data!.docs
-                          .where((exercise) =>
-                              exercise.get('workoutId') == _workout.get("id"))
-                          .toList(),
-                    )
-                  ],
-                );
-              } else {
-                return CircularProgressIndicator.adaptive();
-              }
-            },
-          )),
+      child: Stack(
+        children: [
+          Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/bg2.png'), // Replace with your image path
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: appBar,
+            body: StreamBuilder<QuerySnapshot>(
+              stream: _exercises.snapshots(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Text('Loading');
+                }
+      
+                if (snapshot.hasData) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      ExerciseList(
+                        exercises: snapshot.data!.docs
+                            .where((exercise) =>
+                                exercise.get('workoutId') == _workout.get("id"))
+                            .toList(),
+                      )
+                    ],
+                  );
+                } else {
+                  return CircularProgressIndicator.adaptive();
+                }
+              },
+            )),],
+      ),
     );
   }
 

@@ -6,7 +6,6 @@ import 'package:gym_gram/resources/firestore_methods.dart';
 import 'package:gym_gram/widgets/PostDetail.dart';
 
 import '../cards/MyProfileCard.dart';
-import '../cards/PostCard.dart';
 
 class MyProfile extends StatefulWidget {
   final String uid;

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../cards/WorkoutCard.dart';
 import 'EditWorkout.dart';
-import 'WorkoutsList.dart';
 
 class MyWorkoutsPage extends StatefulWidget {
   const MyWorkoutsPage({super.key});

@@ -1,11 +1,7 @@
-import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:gym_gram/models/Exercise.dart';
-import '../models/WorkingSet.dart';
 
 Future<List<Exercise>> fetchExercises() async {
   final exercises = <Exercise>[];

@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../models/WorkingSet.dart';
 
 import 'package:flutter/material.dart';
 
 class WorkingSets extends StatefulWidget {
-  String exerciseId;
-  bool editable;
+  final String exerciseId;
+  final bool editable;
 
   WorkingSets({required this.exerciseId, required this.editable});
 
@@ -51,42 +50,6 @@ class _WorkingSetsState extends State<WorkingSets> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (!_isAddingSet)
-          widget.editable != true
-              ? SizedBox()
-              : TextButton(
-                  onPressed: _addSet,
-                  child: Text('Add set'),
-                ),
-        if (_isAddingSet)
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: _repsController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText: 'Reps',
-                  ),
-                ),
-              ),
-              SizedBox(width: 10),
-              Expanded(
-                child: TextField(
-                  controller: _weightController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText: 'Weight',
-                  ),
-                ),
-              ),
-              SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: _saveSet,
-                child: Text('Save'),
-              ),
-            ],
-          ),
         SizedBox(height: 10),
         StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
@@ -116,7 +79,60 @@ class _WorkingSetsState extends State<WorkingSets> {
               return CircularProgressIndicator.adaptive();
             }
           },
-        )
+        ),
+        if (!_isAddingSet)
+          widget.editable != true
+              ? SizedBox(height: 20,)
+              : TextButton(
+                  onPressed: _addSet,
+                  child: Text('Add set'),
+                ),
+        if (_isAddingSet)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                child: IconButton(
+                  icon: const Icon(Icons.cancel),
+                  onPressed: () {
+                    setState(() {
+                      _isAddingSet = false;
+                    });
+                  },
+                ),
+              ),
+              Container(
+                width: 70,
+                child: TextField(
+                  controller: _repsController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    hintText: 'Reps',
+                  ),
+                ),
+              ),
+              SizedBox(width: 10),
+              Container(
+                width: 70,
+                child: TextField(
+                  controller: _weightController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    hintText: 'Weight',
+                  ),
+                ),
+              ),
+              SizedBox(width: 10),
+              Container(
+                width: 70,
+                child: ElevatedButton(
+                  onPressed: _saveSet,
+                  child: Text('Save'),
+                ),
+              ),
+              
+            ],
+          ),
 //        for (final set in _sets) Text('${set[0]} reps, ${set[1]} kgs'),
       ],
     );

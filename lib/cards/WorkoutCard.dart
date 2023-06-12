@@ -88,7 +88,7 @@ class _WorkoutCardState extends State<WorkoutCard> {
                   //  workout.workoutName,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 1.0 / deviceFontSize * 2000,
+                    fontSize: 1/screenHeight*18000,
                     color: Colors.blue,
                   ),
                 ),
