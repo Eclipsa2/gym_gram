@@ -1,0 +1,228 @@
+@startuml
+set namespaceSeparator ::
+
+class "gym_gram::auth_widgets::auth_page.dart::AuthPage" {
+  +Widget build()
+}
+
+
+class "gym_gram::auth_widgets::forgot_password_page.dart::ForgotPasswordPage" {
+  +_ForgotPasswordState createState()
+}
+
+
+class "gym_gram::auth_widgets::forgot_password_page.dart::_ForgotPasswordState" {
+  +TextEditingController usernameController
+  +Widget build()
+  +Future<dynamic> resetPassword()
+}
+
+"gym_gram::auth_widgets::forgot_password_page.dart::_ForgotPasswordState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+
+class "gym_gram::auth_widgets::LoginOrRegisterPage.dart::LoginOrRegisterPage" {
+  +_LoginOrRegisterPageState createState()
+}
+
+
+class "gym_gram::auth_widgets::LoginOrRegisterPage.dart::_LoginOrRegisterPageState" {
+  -bool _isLoginPage
+  -void _switchPage()
+  +Widget build()
+}
+
+
+class "gym_gram::auth_widgets::LoginPage.dart::LoginPage" {
+  +void Function() tapSwitch
+  +State<LoginPage> createState()
+}
+
+"gym_gram::auth_widgets::LoginPage.dart::LoginPage" o-- "dart::ui::void Function()"
+class "gym_gram::auth_widgets::LoginPage.dart::_LoginPageState" {
+  +TextEditingController usernameController
+  +TextEditingController passwordController
+  +Future<dynamic> signIn()
+  +void showErrorMessage()
+  +Widget build()
+}
+
+"gym_gram::auth_widgets::LoginPage.dart::_LoginPageState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "gym_gram::auth_widgets::LoginPage.dart::_LoginPageState"
+
+
+
+class "gym_gram::auth_widgets::RegisterPage.dart::_RegisterPageState" {
+  +TextEditingController usernameController
+  +TextEditingController passwordController
+  +TextEditingController confirmPasswordController
+  +Future<dynamic> signUp()
+  +void showErrorMessage()
+  +Widget build()
+}
+
+"gym_gram::auth_widgets::RegisterPage.dart::_RegisterPageState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+
+
+class "gym_gram::cards::CustomStyles.dart::MyButton" {
+  +void Function() onTap
+  +Widget build()
+}
+
+"gym_gram::cards::CustomStyles.dart::MyButton" o-- "dart::ui::void Function()"
+
+class "gym_gram::cards::CustomStyles.dart::MyTextField" {
+  +dynamic controller
+  +String hintText
+  +bool obscureText
+  +Widget build()
+}
+
+
+class "gym_gram::cards::CustomStyles.dart::SquareTile" {
+  +String imagePath
+  +Widget build()
+}
+
+
+class "gym_gram::cards::ExerciseCard.dart::ExerciseCard" {
+  +DocumentSnapshot<Object?> exercise
+  +Widget build()
+}
+
+
+class "gym_gram::cards::WorkingSets.dart::WorkingSets" {
+  +String exerciseId
+  +_WorkingSetsState createState()
+}
+
+
+class "gym_gram::cards::WorkingSets.dart::_WorkingSetsState" {
+  -List<List<int>> _sets
+  -bool _isAddingSet
+  -TextEditingController _repsController
+  -TextEditingController _weightController
+  -void _addSet()
+  -void _saveSet()
+  +Widget build()
+}
+
+"gym_gram::cards::WorkingSets.dart::_WorkingSetsState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+
+class "gym_gram::cards::WorkoutCard.dart::WorkoutCard" {
+  +DocumentSnapshot<Object?> workout
+  +Widget build()
+}
+
+
+
+
+class "gym_gram::main.dart::MyApp" {
+  +Widget build()
+}
+
+
+class "gym_gram::main.dart::MyWorkoutsPage" {
+  +State<MyWorkoutsPage> createState()
+}
+
+
+class "gym_gram::main.dart::_MyWorkoutsPageState" {
+  +User? currentUser
+  +Widget build()
+}
+
+"gym_gram::main.dart::_MyWorkoutsPageState" o-- "firebase_auth::firebase_auth.dart::User"
+
+class "gym_gram::models::Exercise.dart::Exercise" {
+  +String id
+  +String exerciseName
+  +Muscles mainMuscle
+  +List<Muscles> secondaryMuscles
+}
+
+"gym_gram::models::Exercise.dart::Exercise" o-- "gym_gram::models::Exercise.dart::Muscles"
+
+class "gym_gram::models::Exercise.dart::Muscles" {
+  +int index
+  {static} +List<Muscles> values
+  {static} +Muscles Abdominals
+  {static} +Muscles Abductors
+  {static} +Muscles Adductors
+  {static} +Muscles Biceps
+  {static} +Muscles Calves
+  {static} +Muscles Chest
+  {static} +Muscles Forearms
+  {static} +Muscles Glutes
+  {static} +Muscles Hamstrings
+  {static} +Muscles Lats
+  {static} +Muscles LowerBack
+  {static} +Muscles Quadriceps
+  {static} +Muscles Shoulders
+  {static} +Muscles Traps
+  {static} +Muscles Triceps
+  {static} +Muscles UpperBack
+  {static} +Muscles Other
+}
+
+"gym_gram::models::Exercise.dart::Muscles" o-- "gym_gram::models::Exercise.dart::Muscles"
+
+
+class "gym_gram::models::WorkoutExercise.dart::WorkoutExercise" {
+  +Exercise exercise
+  +List<WorkingSet> workingSets
+  +void addSet()
+  +List<WorkingSet> getSets()
+  +int getTotalSets()
+  +int getTotalExerciseWeight()
+}
+
+"gym_gram::models::WorkoutExercise.dart::WorkoutExercise" o-- "gym_gram::models::Exercise.dart::Exercise"
+
+class "gym_gram::widgets::AddExercise.dart::AddExercise" {
+  +Function actionHandler
+  +State<AddExercise> createState()
+}
+
+
+class "gym_gram::widgets::AddExercise.dart::_AddExerciseState" {
+  +TextEditingController weightController
+  +TextEditingController repsController
+  +List<Exercise> exercises
+  +Exercise selectedExercise
+  -void _submit()
+  +void initState()
+  +Widget build()
+}
+
+"gym_gram::widgets::AddExercise.dart::_AddExerciseState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"gym_gram::widgets::AddExercise.dart::_AddExerciseState" o-- "gym_gram::models::Exercise.dart::Exercise"
+
+class "gym_gram::widgets::EditWorkout.dart::EditWorkoutPage" {
+  {static} +String routeName
+  +_EditWorkoutPageState createState()
+}
+
+
+class "gym_gram::widgets::EditWorkout.dart::_EditWorkoutPageState" {
+  -TextEditingController _workoutNameController
+  -DocumentSnapshot<Object?> _workout
+  +void didChangeDependencies()
+  +Widget build()
+  -void _showEditWorkoutNameDialog()
+}
+
+"gym_gram::widgets::EditWorkout.dart::_EditWorkoutPageState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+
+class "gym_gram::widgets::ExerciseList.dart::ExerciseList" {
+  +List<QueryDocumentSnapshot<Object?>> exercises
+  +Widget build()
+}
+
+
+class "gym_gram::widgets::WorkoutsList.dart::WorkoutsList" {
+  +List<QueryDocumentSnapshot<Object?>> workouts
+  +Function deleteHandler
+  +Widget build()
+}
+
+
+@enduml
