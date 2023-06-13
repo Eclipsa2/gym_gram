@@ -12,12 +12,14 @@ enum Muscles {
   Glutes,
   Hamstrings,
   Lats,
+  Back,
   LowerBack,
   Quadriceps,
   Shoulders,
   Traps,
   Triceps,
   UpperBack,
+  Legs,
   Other;
 
   // firebase nu stie de json, transformam in string

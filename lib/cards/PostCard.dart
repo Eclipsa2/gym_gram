@@ -67,7 +67,6 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
-    print(screenWidth);
     return Column(
       children: [
         const SizedBox(
@@ -78,7 +77,6 @@ class _PostCardState extends State<PostCard> {
           // final screenHeight = constraints.maxHeight;
           // final scalingFactor = 0.5; // Adjust the scaling factor as needed
           // final containerHeight = screenWidth * scalingFactor;
-          print(screenHeight);
           return Card(
               color: Color.fromARGB(0, 0, 0, 0),
               margin: EdgeInsets.only(left: 10, right: 10),
