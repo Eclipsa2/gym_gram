@@ -14,8 +14,9 @@ class MyProfile extends StatefulWidget {
   State<MyProfile> createState() => _MyProfileState();
 }
 
-class _MyProfileState extends State<MyProfile> with AutomaticKeepAliveClientMixin<MyProfile> {
-   @override
+class _MyProfileState extends State<MyProfile>
+    with AutomaticKeepAliveClientMixin<MyProfile> {
+  @override
   bool get wantKeepAlive => true; // Set to true to prevent rebuild
   var userData = {};
   bool loading = false;
@@ -81,15 +82,16 @@ class _MyProfileState extends State<MyProfile> with AutomaticKeepAliveClientMixi
                   const SizedBox(
                     height: 20,
                   ),
-                  FutureBuilder(
-                    future: FirebaseFirestore.instance
-                        .collection('posts')
-                        .where('uid', isEqualTo: widget.uid)
-                        .get(),
-                    builder: (context, snapshot) {
+                  StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('posts').where('uid', isEqualTo: widget.uid)
+                        .snapshots(),
+                    builder: (context,
+                        AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                            snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
+                        return const LinearProgressIndicator(
+                          color: Colors.orange,
                         );
                       }
                       var posts = (snapshot.data!).docs.toList();
@@ -138,8 +140,12 @@ class _MyProfileState extends State<MyProfile> with AutomaticKeepAliveClientMixi
                                   child: CachedNetworkImage(
                                     fit: BoxFit.cover,
                                     imageUrl: post['photoUrl'],
-                                    placeholder: (context, url) =>
-                                        Container(height: 10, width: 10, alignment: Alignment.center, child: const CircularProgressIndicator()),
+                                    placeholder: (context, url) => Container(
+                                        height: 10,
+                                        width: 10,
+                                        alignment: Alignment.center,
+                                        child:
+                                            const CircularProgressIndicator()),
                                     errorWidget: (context, url, error) =>
                                         Icon(Icons.error),
                                   ),
