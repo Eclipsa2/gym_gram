@@ -69,9 +69,7 @@ class _PostCardState extends State<PostCard> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(
-          height: 50,
-        ),
+
         LayoutBuilder(builder: (context, constraints) {
           // final screenWidth = constraints.maxWidth;
           // final screenHeight = constraints.maxHeight;
@@ -86,17 +84,16 @@ class _PostCardState extends State<PostCard> {
                   border: Border.all(color: Colors.black54, width: 0.0),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-
-                height: screenHeight * 0.77,
+                height: 660,
                 // padding: EdgeInsets.only(left: 20, right: 20),
                 child: (profilePicUrl == '')
                     ? SizedBox()
                     : Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Container(
-                            height: 50,
-                            width: double.infinity,
+                          Flexible(
+                            flex: 1,
+                            fit: FlexFit.tight,
                             child: Container(
                               padding: EdgeInsets.only(left: 10),
                               height: 25,
@@ -130,50 +127,59 @@ class _PostCardState extends State<PostCard> {
                               ),
                             ),
                           ),
-                          AspectRatio(
-                            aspectRatio: 4 / 5,
-                            child: CachedNetworkImage(
-                              imageUrl: widget.photoUrl,
-                              placeholder: (context, url) =>
-                                  Container(height: 10, width: 10, alignment: Alignment.center, child: const CircularProgressIndicator()),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
+                          Flexible(
+                            flex: 10,
+                            fit: FlexFit.tight,
+                            child: AspectRatio(
+                              aspectRatio: 4 / 5,
+                              child: CachedNetworkImage(
+                                imageUrl: widget.photoUrl,
+                                placeholder: (context, url) =>
+                                    Container(height: 10, width: 10, alignment: Alignment.center, child: const CircularProgressIndicator()),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                              ),
+                              // Image(
+                              //   fit: BoxFit.cover,
+                              //   image: NetworkImage(
+                              //     widget.photoUrl,
+                              //   ),
+                              // ),
                             ),
-                            // Image(
-                            //   fit: BoxFit.cover,
-                            //   image: NetworkImage(
-                            //     widget.photoUrl,
-                            //   ),
-                            // ),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                  transitionDuration:
-                                      const Duration(milliseconds: 200),
-                                  reverseTransitionDuration:
-                                      const Duration(milliseconds: 200),
-                                  opaque: false,
-                                  pageBuilder: (context,
-                                      Animation<double> animation,
-                                      Animation<double> secondaryAnimation) {
-                                    return FadeTransition(
-                                      opacity: animation,
-                                      child: WorkoutDetail(workout: workout),
-                                    );
-                                  },
-                                ),
-                              );
-                            },
-                            child:
-                                Container(child: WorkoutCard(workout: workout)),
+                          Flexible(
+                            flex: 2,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    transitionDuration:
+                                        const Duration(milliseconds: 200),
+                                    reverseTransitionDuration:
+                                        const Duration(milliseconds: 200),
+                                    opaque: false,
+                                    pageBuilder: (context,
+                                        Animation<double> animation,
+                                        Animation<double> secondaryAnimation) {
+                                      return FadeTransition(
+                                        opacity: animation,
+                                        child: WorkoutDetail(workout: workout),
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                              child:
+                                  Container(child: WorkoutCard(workout: workout)),
+                            ),
                           ),
-                          Container(
-                            padding: EdgeInsets.only(top: 5, left: 10),
+                          Flexible(
+                            flex: 1,
+                            fit: FlexFit.tight,
                             child: Row(children: [
                               Container(
+                                padding: EdgeInsets.only(left: 10),
                                 child: Icon(Icons.heart_broken, size: 30),
                               ),
                               Container(

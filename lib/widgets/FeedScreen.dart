@@ -81,11 +81,16 @@ class _FeedScreenState extends State<FeedScreen> with AutomaticKeepAliveClientMi
                       itemBuilder: (context, index) {
                         DocumentSnapshot post = posts[index];
                         return following.contains(post['uid'])
-                            ? PostCard(
-                                uid: post['uid'],
-                                photoUrl: post['photoUrl'],
-                                workoutId: post['workoutId'],
-                              )
+                            ? Column(
+                              children: [
+                                PostCard(
+                                    uid: post['uid'],
+                                    photoUrl: post['photoUrl'],
+                                    workoutId: post['workoutId'],
+                                  ),
+                                const SizedBox(height: 25,)
+                              ],
+                            )
                             : Container();
                       });
                 },

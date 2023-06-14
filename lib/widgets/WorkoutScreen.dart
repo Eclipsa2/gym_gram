@@ -145,9 +145,7 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
                                 workout = updatedWorkout;
                               }));
                         },
-                        child: Column(
-                          children: <Widget>[
-                            Dismissible(
+                        child: Dismissible(
                                 key: Key(workout.id),
                                 background: Container(
                                   color: Colors.red,
@@ -161,9 +159,8 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
                                 onDismissed: (direction) {
                                   _delete(workout.id);
                                 },
-                                child: WorkoutCard(workout: workout)),
-                          ],
-                        ));
+                                child: Container(height: 80, child: WorkoutCard(workout: workout))),
+                        );
                   },
                 );
                 // Column(

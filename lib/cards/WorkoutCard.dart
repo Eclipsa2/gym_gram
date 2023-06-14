@@ -68,13 +68,12 @@ class _WorkoutCardState extends State<WorkoutCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 80,
-      child: Card(
+    return Card(
         color: Colors.transparent,
         elevation: 5,
         child:
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            Row(
+          children: <Widget>[
           Flexible(
             flex: 3,
             fit: FlexFit.tight,
@@ -86,9 +85,9 @@ class _WorkoutCardState extends State<WorkoutCard> {
                   widget.workout['workoutName'],
                   overflow: TextOverflow.ellipsis,
                   //  workout.workoutName,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 1/screenHeight*18000,
+                    fontSize: 20,
                     color: Colors.blue,
                   ),
                 ),
@@ -107,7 +106,7 @@ class _WorkoutCardState extends State<WorkoutCard> {
             fit: FlexFit.tight,
             flex: 2,
             child: Container(
-              padding: EdgeInsets.only(left: 20),
+              //padding: EdgeInsets.only(left: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -136,7 +135,7 @@ class _WorkoutCardState extends State<WorkoutCard> {
             fit: FlexFit.tight,
             flex: 3,
             child: Container(
-              padding: EdgeInsets.only(left: 30),
+              //padding: EdgeInsets.only(left: 30),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -162,7 +161,6 @@ class _WorkoutCardState extends State<WorkoutCard> {
             ),
           )
         ]),
-      ),
     );
   }
 }
