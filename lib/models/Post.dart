@@ -5,6 +5,8 @@ class Post {
   final String description;
   final String photoUrl;
   final DateTime date;
+  final List likes;
+  final List comms;
 
   const Post({
     required this.postId,
@@ -13,6 +15,8 @@ class Post {
     required this.description,
     required this.photoUrl,
     required this.date,
+    required this.likes,
+    required this.comms,
   });
 
   Map<String, dynamic> toJson() => {
@@ -22,5 +26,7 @@ class Post {
         "uid": uid,
         "photoUrl": photoUrl,
         "date": date,
+        "likes": likes,
+        "comms": comms
       };
 }

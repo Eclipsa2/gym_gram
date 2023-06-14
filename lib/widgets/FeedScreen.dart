@@ -83,12 +83,14 @@ class _FeedScreenState extends State<FeedScreen> with AutomaticKeepAliveClientMi
                         return following.contains(post['uid'])
                             ? Column(
                               children: [
+                                const SizedBox(height: 12,),
                                 PostCard(
                                     uid: post['uid'],
                                     photoUrl: post['photoUrl'],
                                     workoutId: post['workoutId'],
+                                    postId: post['postId'],
                                   ),
-                                const SizedBox(height: 25,)
+                                const SizedBox(height: 12,)
                               ],
                             )
                             : Container();

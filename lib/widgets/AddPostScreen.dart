@@ -42,9 +42,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final CollectionReference _workouts =
-        FirebaseFirestore.instance.collection('workouts');
-
     final User? currentUser = FirebaseAuth.instance.currentUser;
 
     void post(String uid, String workoutId) async {
@@ -60,6 +57,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
         });
       } catch (e) {
         res = e.toString();
+        print(res);
         setState(() {
           loading = false;
         });

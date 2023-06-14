@@ -41,6 +41,7 @@ class PostDetail extends StatelessWidget {
               uid: post['uid'],
               photoUrl: post['photoUrl'],
               workoutId: post['workoutId'],
+              postId: post['postId'],
                       )),
             ),
           ],

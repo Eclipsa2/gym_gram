@@ -107,6 +107,7 @@ class _WorkingSetsState extends State<WorkingSets> {
                   controller: _repsController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
+                    border: InputBorder.none, 
                     hintText: 'Reps',
                   ),
                 ),
@@ -118,6 +119,7 @@ class _WorkingSetsState extends State<WorkingSets> {
                   controller: _weightController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
+                    border: InputBorder.none, 
                     hintText: 'Weight',
                   ),
                 ),

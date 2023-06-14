@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_gram/cards/WorkoutCard.dart';
-import 'package:gym_gram/utils/utils.dart';
+import 'package:gym_gram/resources/firestore_methods.dart';
+import 'package:gym_gram/widgets/CommentsScreen.dart';
 import 'package:gym_gram/widgets/WorkoutDetail.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -11,10 +13,12 @@ class PostCard extends StatefulWidget {
   final String uid;
   final String photoUrl;
   final String workoutId;
+  final String postId;
   const PostCard(
       {required this.uid,
       required this.photoUrl,
       required this.workoutId,
+      required this.postId,
       super.key});
 
   @override
@@ -25,6 +29,11 @@ class _PostCardState extends State<PostCard> {
   String username = '';
   late DocumentSnapshot workout;
   String profilePicUrl = '';
+  int nrLikes = 0;
+  bool liked = false;
+  String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+  int nrComms = 0;
+  var postData = {};
   @override
   void initState() {
     super.initState();
@@ -49,10 +58,18 @@ class _PostCardState extends State<PostCard> {
           .get();
       DocumentSnapshot workout_snapshot = querySnapshot.docs.first;
 
-      var userDataa =
-          userQuerySnapshot.docs.first.data() as Map<String, dynamic>?;
-      //print('userData: $userDataa');
-
+      var snap = await FirebaseFirestore.instance
+          .collection('posts')
+          .doc(widget.postId)
+          .get();
+      postData = snap.data()!;
+      var likes = postData['likes'];
+      var comms = postData['comms'];
+      nrComms = comms.length;
+      nrLikes = postData['likes'].length;
+      if (likes.contains(currentUserId)) {
+        liked = true;
+      }
       if (mounted) {
         setState(() {
           username = usernameGet;
@@ -69,7 +86,6 @@ class _PostCardState extends State<PostCard> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-
         LayoutBuilder(builder: (context, constraints) {
           // final screenWidth = constraints.maxWidth;
           // final screenHeight = constraints.maxHeight;
@@ -130,21 +146,39 @@ class _PostCardState extends State<PostCard> {
                           Flexible(
                             flex: 10,
                             fit: FlexFit.tight,
-                            child: AspectRatio(
-                              aspectRatio: 4 / 5,
-                              child: CachedNetworkImage(
-                                imageUrl: widget.photoUrl,
-                                placeholder: (context, url) =>
-                                    Container(height: 10, width: 10, alignment: Alignment.center, child: const CircularProgressIndicator()),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
+                            child: GestureDetector(
+                              onDoubleTap: () {
+                                FirestoreMethods().like(
+                                              widget.postId, currentUserId);
+                                          setState(() {
+                                            if (liked) {
+                                              nrLikes--;
+                                              liked = false;
+                                            } else {
+                                              nrLikes++;
+                                              liked = true;
+                                            }
+                                          });
+                              },
+                              child: AspectRatio(
+                                aspectRatio: 4 / 5,
+                                child: CachedNetworkImage(
+                                  imageUrl: widget.photoUrl,
+                                  placeholder: (context, url) => Container(
+                                      height: 10,
+                                      width: 10,
+                                      alignment: Alignment.center,
+                                      child: const CircularProgressIndicator()),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                ),
+                                // Image(
+                                //   fit: BoxFit.cover,
+                                //   image: NetworkImage(
+                                //     widget.photoUrl,
+                                //   ),
+                                // ),
                               ),
-                              // Image(
-                              //   fit: BoxFit.cover,
-                              //   image: NetworkImage(
-                              //     widget.photoUrl,
-                              //   ),
-                              // ),
                             ),
                           ),
                           Flexible(
@@ -170,8 +204,8 @@ class _PostCardState extends State<PostCard> {
                                   ),
                                 );
                               },
-                              child:
-                                  Container(child: WorkoutCard(workout: workout)),
+                              child: Container(
+                                  child: WorkoutCard(workout: workout)),
                             ),
                           ),
                           Flexible(
@@ -179,12 +213,74 @@ class _PostCardState extends State<PostCard> {
                             fit: FlexFit.tight,
                             child: Row(children: [
                               Container(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Icon(Icons.heart_broken, size: 30),
+                                padding: EdgeInsets.only(left: 15),
+                                child: Column(
+                                  children: [
+                                    GestureDetector(
+                                        onTap: () {
+                                          FirestoreMethods().like(
+                                              widget.postId, currentUserId);
+                                          setState(() {
+                                            if (liked) {
+                                              nrLikes--;
+                                              liked = false;
+                                            } else {
+                                              nrLikes++;
+                                              liked = true;
+                                            }
+                                          });
+                                        },
+                                        child: Icon(
+                                          Icons.heart_broken,
+                                          size: 30,
+                                          color:
+                                              liked ? Colors.red : Colors.white,
+                                        )),
+                                    Text(
+                                      nrLikes.toString(),
+                                      style: TextStyle(fontSize: 10),
+                                    )
+                                  ],
+                                ),
                               ),
                               Container(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Icon(Icons.comment_rounded, size: 30),
+                                padding: EdgeInsets.only(left: 15),
+                                child: Column(
+                                  children: [
+                                    GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            PageRouteBuilder(
+                                              transitionDuration:
+                                                  const Duration(
+                                                      milliseconds: 200),
+                                              reverseTransitionDuration:
+                                                  const Duration(
+                                                      milliseconds: 200),
+                                              opaque: false,
+                                              pageBuilder: (context,
+                                                  Animation<double> animation,
+                                                  Animation<double>
+                                                      secondaryAnimation) {
+                                                return FadeTransition(
+                                                  opacity: animation,
+                                                  child: CommentsScreen(
+                                                      postId: widget.postId,
+                                                      uid: widget.uid,),
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        },
+                                        child: const Icon(Icons.comment_rounded,
+                                            size: 30)),
+                                    Text(
+                                      nrComms.toString(),
+                                      style: TextStyle(fontSize: 10),
+                                    )
+                                  ],
+                                ),
                               )
                             ]),
                           )
