@@ -48,8 +48,11 @@ Our team has come up with 10 user stories:
 ## Backlog
 Trello was utilized as the project management tool for organizing and managing the backlog. You can view it by following this [link](https://trello.com/b/ywzcNM8o/progres).
 
+## Use Case Diagram
+![here](https://github.com/Eclipsa2/gym_gram/assets/89789148/b4d2fe3c-8123-429b-8c7b-9b2e211f70c4)
+
 ## UML Diagram
-You can check our diagram [here](https://i.imgur.com/8oE9O2W.png)
+![UML Diagram drawio](https://github.com/Eclipsa2/gym_gram/assets/89789148/d2d10f6d-a16e-4f00-a5d0-a69933012eda)
 
 ## Bug reporting
 Our team has encountered the following bugs:
