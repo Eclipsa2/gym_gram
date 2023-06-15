@@ -2,6 +2,11 @@
 
 Gym Gram is a gym tracking app developed with Dart and Flutter, designed to help users track their workouts and sets efficiently. With seamless integration with Firebase database, this app provides a reliable platform for fitness enthusiasts to monitor their progress, record exercise routines, and maintain comprehensive fitness logs.
 
+## Contributors:
+[Dumitrache Flavian] (https://github.com/flaviiG)
+[Ilie Andrei-Virgil](https://github.com/Eclipsa2)
+[Sincarenco Nichita](https://github.com/snichita817)
+
 ## Features
 * **Workout Tracking:** Create workout routines with exercises, sets, repetitions and weights. Easily monitor progress and stay motivated towards your fitness goals.
 * **Set Tracking:** Track specific sets within your workout routines. Record details such as repetitions performed, and weights used for accurate progress tracking and performance evaluation.
