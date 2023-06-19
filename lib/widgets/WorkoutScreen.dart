@@ -91,7 +91,7 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
           actions: [
             TextButton(
                 onPressed: _addWorkout,
-                child: Text('Add',
+                child: const Text('Add',
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.orange,
@@ -106,6 +106,7 @@ class _MyWorkoutsPageState extends State<MyWorkoutsPage> {
               fontSize: 35,
             ),
           ),
+          centerTitle: false,
         ),
     
         // StreamBuilder helps keeping persistent connection with firestore database

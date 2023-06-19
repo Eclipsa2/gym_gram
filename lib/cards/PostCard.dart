@@ -163,6 +163,7 @@ class _PostCardState extends State<PostCard> {
                               child: AspectRatio(
                                 aspectRatio: 4 / 5,
                                 child: CachedNetworkImage(
+                                  fit: BoxFit.cover,
                                   imageUrl: widget.photoUrl,
                                   placeholder: (context, url) => Container(
                                       height: 10,

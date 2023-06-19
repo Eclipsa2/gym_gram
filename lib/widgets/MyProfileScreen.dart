@@ -68,6 +68,7 @@ class _MyProfileState extends State<MyProfile>
               fontSize: 35,
             ),
           ),
+          centerTitle: false,
           backgroundColor: Colors.transparent,
         ),
         backgroundColor: Colors.transparent,
